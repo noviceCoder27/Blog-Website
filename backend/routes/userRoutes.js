@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/regiser',() => {});
-router.post('/login',() => {});
-router.put('/updateCredentials',() => {});
+router.get('/register',() => {});
+router.get('/login',() => {});
+router.get('/updateCredentials',() => {});
 
-module.exports = router;
+module.exports = router; 
