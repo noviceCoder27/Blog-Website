@@ -2,11 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/userRoutes');
+const blogRoutes = require('./routes/blogRoutes');
 const mongoose = require('mongoose');
 
 
 app.use(express.json());
 app.use('/user',userRoutes);
+app.use('/blogs',blogRoutes);
 
 
 mongoose.connect(process.env.MONGO_URL)
