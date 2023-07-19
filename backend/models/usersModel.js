@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 
 
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
 const usersSchema = new Schema({
     email: {
@@ -27,7 +27,7 @@ usersSchema.statics.register = async function(email,password,userName,userDescri
     if(!email || !password) {
         throw Error("Please fill in the required credentials");
     }
-    if(!validator(isEmail)) {
+    if(!validator.isEmail(email)) {
         throw Error("Enter a valid email");
     }
 
@@ -46,7 +46,7 @@ usersSchema.statics.login = async function(email,password){
     if(!email || !password) {
         throw Error("Please fill in the required credentials");
     }
-    if(!validator(isEmail)) {
+    if(!validator.isEmail(email)) {
         throw Error("Enter a valid email");
     }
 
@@ -62,22 +62,15 @@ usersSchema.statics.login = async function(email,password){
     return user;
 }
 
-// usersSchema.statics.updateCredentials = async function(email,password,userName,userDescription) {
-//     if(!email || !password) {
-//         throw Error("Please fill in the required credentials");
-//     }
-//     if(!validator(isEmail)) {
-//         throw Error("Enter a valid email");
-//     }
-
-//     const user = await this.findOne({email});
-//     if(!user) {
-//         throw Error("User doesn't exists");
-//     }
-
-
-
-// }
+usersSchema.statics.updateCredentials = async function(userName,userDescription,id) {
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        throw Error("ID doesn't match the profile");
+    }
+    const user = await this.findOne({id});
+    const updatedUserObj = {...user,userName,userDescription};
+    const updatedUser = await this.findByIdAndUpdate(id,updatedUserObj,{new: true});
+    return updatedUser;
+}
 
 
 module.exports = mongoose.model("Users", usersSchema);
