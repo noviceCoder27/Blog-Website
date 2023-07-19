@@ -1,8 +1,17 @@
+const blogsModel = require('../models/blogsModel'); 
+
 function authenticateJWT() {
 
 }
 
-function showAllBlogs(req,res) {   
+async function showAllBlogs(req,res) {
+    try {
+        const blogs = await blogsModel.find({});
+        res.status(200).send(blogs);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error finding blogs");
+    }   
     
 }
 
@@ -10,16 +19,59 @@ function showUserBlogs(req,res) {
 
 }
 
-function createBlog(req,res) {
-
+async function showBlog(req,res) {
+    const {id: _id} = req.params;
+    try {
+        const blog = await blogsModel.findOne({_id});
+        if(!blog) {
+            return res.status(404).send("Blog not found");
+        }
+        res.status(200).send(blog);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error finding blog");
+    }   
 }
 
-function deleteBlog(req,res) {
-
+async function createBlog(req,res) {
+    const user_id = "dsdsdsa";
+    const {title,content} = req.body;
+    try {
+        const blog = await blogsModel.create({title,content,user_id});
+        res.status(200).send(blog);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error adding blog");
+    }
+     
 }
 
-function updateBlog(req,res) {
-
+async function deleteBlog(req,res) {
+    const {id:_id} = req.params;
+    try {
+        const blog = await blogsModel.findByIdAndDelete(_id);
+        if(!blog) {
+            return res.status(404).send("Blog not found");
+        }
+        res.status(200).send(blog);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error deleting blog");
+    }   
 }
 
-module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,authenticateJWT}
+async function updateBlog(req,res) {
+    const {id: _id} = req.params;
+    try {
+        const blog = await blogsModel.findByIdAndUpdate(_id);
+        if(!blog) {
+            return res.status(404).send("Blog not found");
+        }
+        res.status(200).send(blog);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error updating blog");
+    }   
+}
+
+module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,showBlog,authenticateJWT}
