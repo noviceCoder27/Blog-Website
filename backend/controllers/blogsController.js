@@ -1,23 +1,25 @@
-
-
-function showAllBlogs() {
+function authenticateJWT() {
 
 }
 
-function showUserBlogs() {
+function showAllBlogs(req,res) {   
+    
+}
+
+function showUserBlogs(req,res) {
 
 }
 
-function createBlog() {
+function createBlog(req,res) {
 
 }
 
-function deleteBlog() {
+function deleteBlog(req,res) {
 
 }
 
-function updateBlog() {
+function updateBlog(req,res) {
 
 }
 
-module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog}
+module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,authenticateJWT}
