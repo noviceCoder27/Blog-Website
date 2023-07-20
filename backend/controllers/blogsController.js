@@ -1,8 +1,5 @@
 const blogsModel = require('../models/blogsModel'); 
 
-function authenticateJWT() {
-
-}
 
 async function showAllBlogs(req,res) {
     try {
@@ -15,8 +12,15 @@ async function showAllBlogs(req,res) {
     
 }
 
-function showUserBlogs(req,res) {
-
+async function showUserBlogs(req,res) {
+    const user_id = req.user._id;
+    try {
+        const blogs = await blogsModel.find({user_id});
+        res.status(200).send(blogs);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error finding blogs");
+    }
 }
 
 async function showBlog(req,res) {
@@ -34,7 +38,7 @@ async function showBlog(req,res) {
 }
 
 async function createBlog(req,res) {
-    const user_id = "dsdsdsa";
+    const user_id = req.user._id;
     const {title,content} = req.body;
     try {
         const blog = await blogsModel.create({title,content,user_id});
@@ -62,8 +66,11 @@ async function deleteBlog(req,res) {
 
 async function updateBlog(req,res) {
     const {id: _id} = req.params;
+    const {title,content} = req.body;
+    const updatedBlog = {title,content};
     try {
-        const blog = await blogsModel.findByIdAndUpdate(_id);
+        const blog = await blogsModel.findByIdAndUpdate(_id,updatedBlog,{new: true}); 
+        //If you don’t include the {new: true} option in the findByIdAndUpdate function, Mongoose will return the original document before the update was applied, instead of the updated document. This is the default behavior of both Mongoose and MongoDB.
         if(!blog) {
             return res.status(404).send("Blog not found");
         }
@@ -74,4 +81,4 @@ async function updateBlog(req,res) {
     }   
 }
 
-module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,showBlog,authenticateJWT}
+module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,showBlog}

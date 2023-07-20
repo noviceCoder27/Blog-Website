@@ -7,11 +7,6 @@ function createToken(_id) {
     return jwt.sign({_id},process.env.SECRET,{expiresIn: '1h'});
 }
 
-function storeUserId(req,res,next) {
-    req.userId  = id;
-    next();
-}
-
 async function register(req,res) {
     let {email,password,userName,userDescription} = req.body;
     if(!password || !email) {
@@ -23,6 +18,15 @@ async function register(req,res) {
 
     if(!userDescription) {
         userDescription = '';
+    }
+    try {
+        const doesExist = await usersModel.findOne({email});
+        if(doesExist) {
+            return res.status(400).send("Email already exists");
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error connecting to mongodb");
     }
     try {
         const user = await usersModel.register(email,password,userName,userDescription);
@@ -46,14 +50,15 @@ async function login(req,res) {
         res.status(200).send({email:user.email,token});
     } catch(err) {
         console.log(err);
+        res.status(400).send("Email alrady exists");
     }
 }
 
 async function updateUserCredentials(req,res) {
-    const id = req.userId;
+    const id = req.user._id;
     const {userName,userDescription} = req.body;
     const user = await usersModel.updateCredentials(userName,userDescription,id);
     res.status(200).send({updatedUsername: user.userName, updatedDescription: user.userDescription}); 
 }
 
-module.exports = {register,login,updateUserCredentials,storeUserId}
+module.exports = {register,login,updateUserCredentials}
