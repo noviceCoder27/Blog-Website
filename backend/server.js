@@ -4,9 +4,13 @@ const app = express();
 const userRoutes = require('./routes/userRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const mongoose = require('mongoose');
+const cors = require("cors");
 
 
 app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:5173/"
+}));
 app.use('/user',userRoutes);
 app.use('/blogs',blogRoutes);
 
