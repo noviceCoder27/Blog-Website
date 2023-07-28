@@ -39,9 +39,9 @@ async function showBlog(req,res) {
 
 async function createBlog(req,res) {
     const user_id = req.user._id;
-    const {title,content} = req.body;
+    const {title,content,category} = req.body;
     try {
-        const blog = await blogsModel.create({title,content,user_id});
+        const blog = await blogsModel.create({title,content,category,user_id});
         res.status(200).send(blog);
     } catch(err) {
         console.log(err);
@@ -66,8 +66,8 @@ async function deleteBlog(req,res) {
 
 async function updateBlog(req,res) {
     const {id: _id} = req.params;
-    const {title,content} = req.body;
-    const updatedBlog = {title,content};
+    const {title,content,category} = req.body;
+    const updatedBlog = {title,content,category};
     try {
         const blog = await blogsModel.findByIdAndUpdate(_id,updatedBlog,{new: true}); 
         //If you don’t include the {new: true} option in the findByIdAndUpdate function, Mongoose will return the original document before the update was applied, instead of the updated document. This is the default behavior of both Mongoose and MongoDB.
