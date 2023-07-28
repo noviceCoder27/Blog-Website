@@ -6,12 +6,12 @@ const router = express.Router();
 
 
 router.get('/',showAllBlogs);
-router.get('/blog/:id',showBlog);
+router.get('/:id',showBlog);
 router.use(authenticateJWT);
-router.get('/me',showUserBlogs);
-router.post('/blog',createBlog);
-router.delete('/blog/:id',deleteBlog);
-router.put('/blog/:id',updateBlog);
+router.get('/getBlogs/me',showUserBlogs);
+router.post('/',createBlog);
+router.delete('/:id',deleteBlog);
+router.put('/:id',updateBlog);
 
 
 module.exports = router;
