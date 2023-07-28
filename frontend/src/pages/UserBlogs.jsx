@@ -1,12 +1,18 @@
 import axios from "axios";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export const UserBlogs = () => {
+  const [userBlogs,setUserBlogs] = useState([]);
   useEffect(() => {
     async function getUserBlogs() {
       try {
-        const userBlogs = await axios.get("http://localhost:3000/me");
-        console.log(userBlogs);
+        const userBlogsObj = await axios.get("http://localhost:3000/blogs/getBlogs/me", {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
+        const getUserBlogs = userBlogsObj?.data;
+        setUserBlogs(getUserBlogs); 
       } catch(err) {
         console.log(err);
       }  
@@ -14,6 +20,12 @@ export const UserBlogs = () => {
     getUserBlogs();
   },[]);
   return (
-    <div>UserBlogs</div>
+    <>{userBlogs?.map(blog => (
+      <div key = {blog._id}>
+        {blog.title}<br />
+        {blog.content}<br />
+        {blog.category}<br />
+      </div>
+    ))}</>
   )
 }
