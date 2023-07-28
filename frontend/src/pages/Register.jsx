@@ -6,7 +6,8 @@ export const Register = () => {
         const user = {email,password};
         try {
             const registered = await axios.post("http://localhost:3000/user/register",user);
-            console.log(registered);
+            const registeredUser = registered.data;
+            localStorage.setItem("token", registeredUser.token);
         } catch(err) {
             console.log(err);
         }
