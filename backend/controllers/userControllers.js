@@ -32,7 +32,7 @@ async function register(req,res) {
         const user = await usersModel.register(email,password,userName,userDescription);
         const token = createToken(user._id);
         id = user._id;
-        res.status(200).send({email:user.email,token});
+        res.status(200).send({user,token});
     } catch(err) {
         console.log(err);
     }
@@ -47,7 +47,7 @@ async function login(req,res) {
         const user = await usersModel.login(email,password);
         const token = createToken(user._id);
         id = user._id;
-        res.status(200).send({email:user.email,token});
+        res.status(200).send({user,token});
     } catch(err) {
         console.log(err);
         res.status(400).send("Email alrady exists");
