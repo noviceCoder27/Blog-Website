@@ -7,6 +7,7 @@ import { Blog } from './pages/Blog';
 import { Blogs } from './pages/Blogs';
 import { Navbar } from './components/Navbar.jsx';
 import { CreateBlog } from './pages/CreateBlog';
+import { ProtectedRoutes } from './middleware/ProtectedRoutes';
 
 function App() {
  
@@ -17,10 +18,10 @@ function App() {
         <Route path = '/' element = {<Home />} />
         <Route path = '/login' element = {<Login />} />
         <Route path = '/register' element = {<Register />} />
-        <Route path = '/userblogs' element = {<UserBlogs />} />
+        <Route path = '/userblogs' element = {<ProtectedRoutes><UserBlogs /></ProtectedRoutes>} />
         <Route path = '/blogs' element = {<Blogs />} />
         <Route path = '/blogs/:id' element = {<Blog />} />
-        <Route path = '/blogs/addblog' element = {<CreateBlog />} />
+        <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog /></ProtectedRoutes>} />
       </Routes>
     </Router>
   )
