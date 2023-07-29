@@ -5,12 +5,13 @@ import { Register } from './pages/Register.jsx';
 import { UserBlogs } from './pages/UserBlogs.jsx';
 import { Blog } from './pages/Blog';
 import { Blogs } from './pages/Blogs';
+import { Navbar } from './components/Navbar.jsx';
 
 function App() {
  
-
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path = '/' element = {<Home />} />
         <Route path = '/login' element = {<Login />} />
