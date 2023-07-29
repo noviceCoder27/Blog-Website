@@ -2,11 +2,17 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../components/Form";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../store/atoms/userAtom";
+
+
 
 export const Register = () => {
     const navigate = useNavigate();
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const setUser = useSetRecoilState(userState);
+
 
     const register = useCallback(async (e) => {
         e.preventDefault();
@@ -15,6 +21,7 @@ export const Register = () => {
             const registered = await axios.post("http://localhost:3000/user/register",user);
             const registeredUser = registered.data;
             localStorage.setItem("token", registeredUser.token);
+            setUser(registeredUser.user);
             navigate("/blogs");
         } catch(err) {
             console.log(err);
