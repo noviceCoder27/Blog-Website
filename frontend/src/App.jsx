@@ -6,6 +6,7 @@ import { UserBlogs } from './pages/UserBlogs.jsx';
 import { Blog } from './pages/Blog';
 import { Blogs } from './pages/Blogs';
 import { Navbar } from './components/Navbar.jsx';
+import { CreateBlog } from './pages/CreateBlog';
 
 function App() {
  
@@ -19,6 +20,7 @@ function App() {
         <Route path = '/userblogs' element = {<UserBlogs />} />
         <Route path = '/blogs' element = {<Blogs />} />
         <Route path = '/blogs/:id' element = {<Blog />} />
+        <Route path = '/blogs/addblog' element = {<CreateBlog />} />
       </Routes>
     </Router>
   )
