@@ -25,6 +25,8 @@ export const Blogs = () => {
                     <button onClick={() => navigate(`/blogs/${blog._id}`)}>Check Blog</button>
                 </div>
             ))}
+            <br />
+            <button onClick={() => navigate("/blogs/addblog")}>Add blog</button>
         </div>
     )
 }
