@@ -13,18 +13,21 @@ import './index.css'
 function App() {
  
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path = '/' element = {<Home />} />
-        <Route path = '/login' element = {<Login />} />
-        <Route path = '/register' element = {<Register />} />
-        <Route path = '/userblogs' element = {<ProtectedRoutes><UserBlogs /></ProtectedRoutes>} />
-        <Route path = '/blogs' element = {<Blogs />} />
-        <Route path = '/blogs/:id' element = {<Blog />} />
-        <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog /></ProtectedRoutes>} />
-      </Routes>
-    </Router>
+    <div className='min-h-screen bg-[#fff5cf] flex flex-col'>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path = '/' element = {<Home />} />
+          <Route path = '/login' element = {<Login />} />
+          <Route path = '/register' element = {<Register />} />
+          <Route path = '/userblogs' element = {<ProtectedRoutes><UserBlogs /></ProtectedRoutes>} />
+          <Route path = '/blogs' element = {<Blogs />} />
+          <Route path = '/blogs/:id' element = {<Blog />} />
+          <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog /></ProtectedRoutes>} />
+        </Routes>
+      </Router>
+    </div>
+    
   )
 }
 
