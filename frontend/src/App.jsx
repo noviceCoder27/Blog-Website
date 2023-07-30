@@ -8,6 +8,7 @@ import { Blogs } from './pages/Blogs';
 import { Navbar } from './components/Navbar.jsx';
 import { CreateBlog } from './pages/CreateBlog';
 import { ProtectedRoutes } from './middleware/ProtectedRoutes';
+import './index.css'
 
 function App() {
  
