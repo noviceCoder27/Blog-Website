@@ -32,3 +32,11 @@ export const getBlogCreatedAt = selector({
         return state?.createdAt;
     }
 });
+
+export const getBlogId = selector({
+    key: "getBlogId",
+    get: ({get}) => {
+        const state = get(blogState);
+        return state?._id;
+    }
+});
