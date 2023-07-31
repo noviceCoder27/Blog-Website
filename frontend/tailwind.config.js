@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'monsterrat': ['Montserrat', 'sans-serif']
+      }
+    },
     screens: {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
@@ -22,6 +26,6 @@ export default {
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
     }
-  },
+  }, 
   plugins: [],
 }
