@@ -21,9 +21,12 @@ export const Blogs = () => {
     },[]);
     const navigate = useNavigate();
     return (
-        <div>
-            <Blog />
+        <>
+            <section className="flex flex-wrap justify-center gap-5 mt-20">
+                <Blog />
+            </section>
             <button onClick={() => navigate("/blogs/addblog")}>Add blog</button>
-        </div>
+        </>
+       
     )
 }
