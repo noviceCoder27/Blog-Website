@@ -1,11 +1,12 @@
 import { useEffect } from "react"
 import axios from "axios"
 import {useNavigate} from 'react-router-dom'
-import { useRecoilState } from "recoil"
+import { useSetRecoilState } from "recoil"
 import { blogState } from './../store/atoms/blogAtom';
+import { Blog } from "./Blog";
 
 export const Blogs = () => {
-    const [blogs,setBlogs] = useRecoilState(blogState);
+    const setBlogs = useSetRecoilState(blogState);
     useEffect(() => {
         async function getBlogs() {
             try {
@@ -21,13 +22,7 @@ export const Blogs = () => {
     const navigate = useNavigate();
     return (
         <div>
-            {blogs?.map(blog => (
-                <div key = {blog._id}>
-                    <p>{blog.title}</p>
-                    <button onClick={() => navigate(`/blogs/${blog._id}`)}>Check Blog</button>
-                </div>
-            ))}
-            <br />
+            <Blog />
             <button onClick={() => navigate("/blogs/addblog")}>Add blog</button>
         </div>
     )

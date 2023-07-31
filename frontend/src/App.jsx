@@ -3,7 +3,7 @@ import {Home} from './pages/Home.jsx'
 import { Login } from './pages/Login';
 import { Register } from './pages/Register.jsx';
 import { UserBlogs } from './pages/UserBlogs.jsx';
-import { Blog } from './pages/Blog';
+import { BlogContent } from './pages/BlogContent';
 import { Blogs } from './pages/Blogs';
 import { Navbar } from './components/Navbar.jsx';
 import { CreateBlog } from './pages/CreateBlog';
@@ -22,7 +22,7 @@ function App() {
           <Route path = '/register' element = {<Register />} />
           <Route path = '/userblogs' element = {<ProtectedRoutes><UserBlogs /></ProtectedRoutes>} />
           <Route path = '/blogs' element = {<Blogs />} />
-          <Route path = '/blogs/:id' element = {<Blog />} />
+          <Route path = '/blogs/:id' element = {<BlogContent />} />
           <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog /></ProtectedRoutes>} />
         </Routes>
       </Router>

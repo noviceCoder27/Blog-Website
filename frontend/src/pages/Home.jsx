@@ -1,7 +1,9 @@
-
+import {Blogs} from './Blogs'
 
 export const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <Blogs />
+    </div>
   )
 }

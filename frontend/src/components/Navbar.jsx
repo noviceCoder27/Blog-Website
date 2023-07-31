@@ -3,8 +3,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import {getUserEmail} from '../store/selectors/user'
 import { userState } from "../store/atoms/userAtom";
 import { blogState } from './../store/atoms/blogAtom';
-import Logo from '../../public/logo.png'
-import Underline from '../../public/bg.svg'
+import Logo from '../public/logo.png'
+import Underline from '../public/bg.svg'
 import { FaSearch } from "react-icons/fa"
 import { FaBars } from "react-icons/fa"
 
