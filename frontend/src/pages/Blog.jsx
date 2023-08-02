@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useRecoilValue } from "recoil";
 import { blogState } from './../store/atoms/blogAtom';
 import { FaCalendarAlt } from "react-icons/fa";
-import { userState } from './../store/atoms/userAtom';
+
 
 
 
@@ -10,8 +10,6 @@ export const Blog = () => {
     const months = ["Jan", "Feb", "March", "April", "May","Jun", "Jul", "Aug","Sept","Oct","Nov","Dec"];
     const navigate = useNavigate();
     const blogs = useRecoilValue(blogState);
-    const user = useRecoilValue(userState);
-    console.log(user);
     const createdAt = [];
     for(const blog of blogs) {
         createdAt.push(blog.createdAt);
@@ -44,7 +42,7 @@ export const Blog = () => {
                     
                     <div className="m-5 text-center">
                             <h2 className="text-2xl font-extrabold font-monsterrat">{blog.title}</h2>
-                            <h3>{user?.userName}</h3>
+                            <h3 className="font-extrabold font-monsterrat">MUGDHA</h3>
                             <p className="font-semibold font-monsterrat">{blog.content}</p>
                     </div>
                     <div className="flex items-center self-center gap-5">

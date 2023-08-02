@@ -7,6 +7,11 @@ import Logo from '../public/logo.png'
 import Underline from '../public/bg.svg'
 import { FaSearch } from "react-icons/fa"
 import { FaBars } from "react-icons/fa"
+import { BiSolidRightArrow } from "react-icons/bi";
+import { BiSolidDownArrow } from "react-icons/bi";
+import { useState } from "react";
+
+
 
 
 export const Navbar = () => {
@@ -14,6 +19,7 @@ export const Navbar = () => {
     const userEmail = useRecoilValue(getUserEmail);
     const setUser = useSetRecoilState(userState);
     const setBlogs = useSetRecoilState(blogState);
+    const [showNav,setShowNav] = useState(false);
     function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -23,22 +29,43 @@ export const Navbar = () => {
     }
 
     return (
-        <header className="h-[20%] flex lg:flex-col items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">
-            <div className="flex justify-between w-full lg:justify-center">
-                <img src = {Logo} className="w-[15vw] max-w-[200px] min-w-[100px]"/>
+        <header className="h-[20%] flex flex-col lg:flex-col lg:items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">
+            <div className="flex justify-between w-full lg:justify-center lg:mt-10">
+                <img src = {Logo} className="w-[15vw] max-w-[200px] min-w-[100px] lg:ml-40"/>
                 <div className="flex items-center gap-5">
                     <button className="flex items-center gap-2 ml-20 font-extrabold font-monsterrat">
                         <span className="max-lg:hidden">SEARCH</span>
                         <FaSearch className="text-xl cursor-pointer lg:mb-1"/>
                     </button>
-                    <FaBars className="text-2xl cursor-pointer"/>
+                    <FaBars className="text-2xl cursor-pointer lg:hidden" onClick={() =>setShowNav(prevNav => !prevNav)}/>
                 </div>
                 
             </div>
-            <img src = {Underline} className="w-[22%] min-w-[130px] block max-lg:hidden"/>
-            {/* {!userEmail && <button onClick={() => navigate("/register")}>Sign up</button>}
-            {!userEmail && <button onClick={() => navigate("/login")}>Sign in</button>}
-            {userEmail && <button onClick={logout}>Sign out</button>} */}
+            <img src = {Underline} className="w-[22%] min-w-[130px] block max-lg:hidden max-w-[300px]"/>
+            <nav className={`text-xl font-extrabold leading-10 transition duration-500 ease-out transform origin-top ${showNav ? 'scale-y-100' : 'scale-y-0'} ${showNav ? 'h-full' : 'h-0'} ${showNav ? 'mt-10' : 'mt-0'} font-monsterrat`}>
+                <div>Home</div>
+                <div className="flex justify-between">
+                    <div>Categories</div>
+                    <BiSolidRightArrow className="cursor-pointer"/>
+                </div>
+                <div>Create Blog</div>
+                <div className="flex justify-between">
+                    <div>Account</div>
+                    <BiSolidRightArrow className="cursor-pointer"/>
+                </div>
+            </nav>
+            <nav className="flex items-center gap-5 p-4 px-20 mt-10 text-xl font-extrabold leading-10 bg-white rounded-[50px] font-monsterrat max-lg:hidden border-4 border-black border-b-[10px] before:w-10 before:h-2 before:border-2 before:border-black before:translate-x-[-80px] before:bg-black after:w-10 after:h-2 after:border-2 after:border-black after:translate-x-[80px] after:bg-black">
+                <div className="cursor-pointer hover:text-[#f16363]">Home</div>
+                <div className="flex items-center justify-between gap-2 cursor-pointer hover:text-[#f16363]">
+                    <div>Categories</div>
+                    <BiSolidDownArrow className="text-sm cursor-pointer"/>
+                </div>
+                <div className="cursor-pointer hover:text-[#f16363]">Create Blog</div>
+                <div className="flex items-center justify-between gap-2 hover:text-[#f16363]">
+                    <div className="cursor-pointer">Account</div>
+                    <BiSolidDownArrow className="text-sm cursor-pointer "/>
+                </div>
+            </nav>
         </header>
     )
 }
