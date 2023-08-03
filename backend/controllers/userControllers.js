@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const usersModel = require('../models/usersModel');
+const blogsModel = require('../models/blogsModel');
 
 let id;
 
@@ -72,4 +73,22 @@ async function getUser(req,res) {
     }
 }
 
-module.exports = {register,login,updateUserCredentials,getUser}
+async function getUserNameAndDescription(req,res) {
+    const {blog_id} = req.body;
+    try {
+        const blog = await blogsModel.findById(blog_id);
+        const {user_id} = blog;
+        try {
+            const user = await usersModel.findById(user_id);
+            res.status(200).send({name:user.userName,description:user.userDescription});
+        } catch(err) {
+            console.log(err);
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error finding blog");
+    }
+
+}
+
+module.exports = {register,login,updateUserCredentials,getUser,getUserNameAndDescription}
