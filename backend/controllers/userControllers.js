@@ -32,7 +32,7 @@ async function register(req,res) {
         const user = await usersModel.register(email,password,userName,userDescription);
         const token = createToken(user._id);
         id = user._id;
-        res.status(200).send({user,token});
+        res.status(200).send({email:user.email,token});
     } catch(err) {
         console.log(err);
     }
@@ -47,10 +47,10 @@ async function login(req,res) {
         const user = await usersModel.login(email,password);
         const token = createToken(user._id);
         id = user._id;
-        res.status(200).send({user,token});
+        res.status(200).send({email:user.email,token});
     } catch(err) {
         console.log(err);
-        res.status(400).send("Email alrady exists");
+        res.status(400).send("No such user found");
     }
 }
 
@@ -61,4 +61,15 @@ async function updateUserCredentials(req,res) {
     res.status(200).send({updatedUsername: user.userName, updatedDescription: user.userDescription}); 
 }
 
-module.exports = {register,login,updateUserCredentials}
+async function getUser(req,res) {
+    const id = req.user._id;
+    try {
+        const user = await usersModel.findById(id);
+        res.status(200).send(user);
+    } catch(err) {
+        console.log(err);
+        res.status(400).send("Error finding user");
+    }
+}
+
+module.exports = {register,login,updateUserCredentials,getUser}
