@@ -22,7 +22,6 @@ export const Register = () => {
             const registeredUser = registered.data;
             localStorage.setItem("token", registeredUser.token);
             setUser(registeredUser.user);
-            localStorage.setItem("user",JSON.stringify(registeredUser.user));
             navigate("/blogs");
         } catch(err) {
             console.log(err);

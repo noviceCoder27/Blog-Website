@@ -21,7 +21,6 @@ function App() {
           <Route path = '/login' element = {<Login />} />
           <Route path = '/register' element = {<Register />} />
           <Route path = '/userblogs' element = {<ProtectedRoutes><UserBlogs /></ProtectedRoutes>} />
-          <Route path = '/blogs' element = {<Blogs />} />
           <Route path = '/blogs/:id' element = {<BlogContent />} />
           <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog /></ProtectedRoutes>} />
         </Routes>

@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom"
 import { useRecoilValue } from "recoil";
 import { blogState } from './../store/atoms/blogAtom';
 import { FaCalendarAlt } from "react-icons/fa";
+import { useEffect } from "react";
+import axios from "axios";
 
 
 
@@ -24,6 +26,15 @@ export const Blog = () => {
             createdAt[i] = `${month}-${day} ${year}`;
         }
     }
+
+    useEffect(() => {
+       async function getUser() {
+        const user = await axios.get("http://localhost:3000/user/getUser");
+        console.log(user);
+       }
+       getUser(); 
+    },[])
+
 
 
     
