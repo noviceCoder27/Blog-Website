@@ -10,6 +10,7 @@ import { FaBars } from "react-icons/fa"
 import { BiSolidRightArrow } from "react-icons/bi";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { useState } from "react";
+import { searchState } from './../store/atoms/searchAtom';
 
 
 
@@ -20,6 +21,7 @@ export const Navbar = () => {
     const setUser = useSetRecoilState(userState);
     const setBlogs = useSetRecoilState(blogState);
     const [showNav,setShowNav] = useState(false);
+    const setSearchState = useSetRecoilState(searchState);
     function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -35,7 +37,7 @@ export const Navbar = () => {
                 <div className="flex items-center gap-5">
                     <button className="flex items-center gap-2 ml-20 font-extrabold font-monsterrat">
                         <span className="max-lg:hidden">SEARCH</span>
-                        <FaSearch className="text-xl cursor-pointer lg:mb-1"/>
+                        <FaSearch className="text-xl cursor-pointer lg:mb-1" onClick={() => setSearchState(prev => !prev)}/>
                     </button>
                     <FaBars className="text-2xl cursor-pointer lg:hidden" onClick={() =>setShowNav(prevNav => !prevNav)}/>
                 </div>
