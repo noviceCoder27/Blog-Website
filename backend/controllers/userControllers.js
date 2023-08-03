@@ -73,14 +73,14 @@ async function getUser(req,res) {
     }
 }
 
-async function getUserNameAndDescription(req,res) {
+async function getUserDetails(req,res) {
     const {blog_id} = req.body;
     try {
         const blog = await blogsModel.findById(blog_id);
         const {user_id} = blog;
         try {
             const user = await usersModel.findById(user_id);
-            res.status(200).send({name:user.userName,description:user.userDescription});
+            res.status(200).send({name:user.userName,description:user.userDescription,email:user.email});
         } catch(err) {
             console.log(err);
         }
@@ -91,4 +91,4 @@ async function getUserNameAndDescription(req,res) {
 
 }
 
-module.exports = {register,login,updateUserCredentials,getUser,getUserNameAndDescription}
+module.exports = {register,login,updateUserCredentials,getUser,getUserDetails}
