@@ -4,7 +4,6 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register.jsx';
 import { UserBlogs } from './pages/UserBlogs.jsx';
 import { BlogContent } from './pages/BlogContent';
-import { Blogs } from './pages/Blogs';
 import { Navbar } from './components/Navbar.jsx';
 import { CreateBlog } from './pages/CreateBlog';
 import { ProtectedRoutes } from './middleware/ProtectedRoutes';
