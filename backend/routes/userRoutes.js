@@ -5,7 +5,7 @@ const authenticateJWT = require('../middleware/requireAuth');
 
 router.post('/register',register);
 router.post('/login',login);
-router.get('/userdetails',getUserDetails);
+router.post('/userdetails',getUserDetails);
 router.get('/getUser',authenticateJWT,getUser);
 router.put('/updateCredentials',authenticateJWT,updateUserCredentials);
 
