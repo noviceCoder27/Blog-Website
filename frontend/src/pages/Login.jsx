@@ -19,7 +19,7 @@ export const Login = () => {
             const registeredUser = registered.data;
             localStorage.setItem("token", registeredUser.token);
             setUser(registeredUser.user);
-            navigate("/blogs");
+            navigate("/");
         } catch(err) {
             console.log(err);
         }
