@@ -13,8 +13,6 @@ import { useState } from "react";
 import { searchState } from './../store/atoms/searchAtom';
 
 
-
-
 export const Navbar = () => {
     const navigate = useNavigate();
     const userEmail = useRecoilValue(getUserEmail);
@@ -29,6 +27,7 @@ export const Navbar = () => {
         setBlogs([]);
         navigate("/login");
     }
+    
 
     return (
         <header className="h-[20%] flex flex-col lg:flex-col lg:items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">

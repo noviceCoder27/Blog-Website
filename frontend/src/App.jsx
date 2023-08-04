@@ -10,7 +10,6 @@ import { ProtectedRoutes } from './middleware/ProtectedRoutes';
 import './index.css'
 
 function App() {
- 
   return (
     <div className='min-h-screen bg-[#fff5cf] flex flex-col'>
       <Router>
