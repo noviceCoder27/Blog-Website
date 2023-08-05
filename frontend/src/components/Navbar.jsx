@@ -44,24 +44,24 @@ export const Navbar = () => {
             </div>
             <img src = {Underline} className="w-[22%] min-w-[130px] block max-lg:hidden max-w-[300px]"/>
             <nav className={`text-xl font-extrabold leading-10 transition duration-500 ease-out transform origin-top ${showNav ? 'scale-y-100' : 'scale-y-0'} ${showNav ? 'h-full' : 'h-0'} ${showNav ? 'mt-10' : 'mt-0'} font-monsterrat`}>
-                <div>Home</div>
+                <div onClick={() => navigate("/")}>Home</div>
                 <div className="flex justify-between">
                     <div>Categories</div>
                     <BiSolidRightArrow className="cursor-pointer"/>
                 </div>
-                <div>Create Blog</div>
+                <div onClick={() => navigate("/blogs/addblog")}>Create Blog</div>
                 <div className="flex justify-between">
                     <div>Account</div>
                     <BiSolidRightArrow className="cursor-pointer"/>
                 </div>
             </nav>
             <nav className="flex items-center gap-5 p-4 px-20 mt-10 text-xl font-extrabold leading-10 bg-white rounded-[50px] font-monsterrat max-lg:hidden border-4 border-black border-b-[10px] before:w-10 before:h-2 before:border-2 before:border-black before:translate-x-[-80px] before:bg-black after:w-10 after:h-2 after:border-2 after:border-black after:translate-x-[80px] after:bg-black">
-                <div className="cursor-pointer hover:text-[#f16363]">Home</div>
+                <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/")}>Home</div>
                 <div className="flex items-center justify-between gap-2 cursor-pointer hover:text-[#f16363]">
                     <div>Categories</div>
                     <BiSolidDownArrow className="text-sm cursor-pointer"/>
                 </div>
-                <div className="cursor-pointer hover:text-[#f16363]">Create Blog</div>
+                <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/blogs/addblog")}>Create Blog</div>
                 <div className="flex items-center justify-between gap-2 hover:text-[#f16363]">
                     <div className="cursor-pointer">Account</div>
                     <BiSolidDownArrow className="text-sm cursor-pointer "/>
