@@ -58,7 +58,7 @@ async function login(req,res) {
 async function updateUserCredentials(req,res) {
     const id = req.user._id;
     const {userName,userDescription} = req.body;
-    const user = await usersModel.updateCredentials(userName,userDescription,id);
+    const user = await usersModel.findByIdAndUpdate(id,{userName,userDescription},{new:true});
     res.status(200).send({updatedUsername: user.userName, updatedDescription: user.userDescription}); 
 }
 

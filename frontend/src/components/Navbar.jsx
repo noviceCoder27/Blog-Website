@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import {getUserEmail} from '../store/selectors/user'
+import { useSetRecoilState } from "recoil";
 import { userState } from "../store/atoms/userAtom";
 import { blogState } from './../store/atoms/blogAtom';
 import Logo from '../public/logo.png'
@@ -15,10 +14,11 @@ import { searchState } from './../store/atoms/searchAtom';
 
 export const Navbar = () => {
     const navigate = useNavigate();
-    const userEmail = useRecoilValue(getUserEmail);
     const setUser = useSetRecoilState(userState);
     const setBlogs = useSetRecoilState(blogState);
     const [showNav,setShowNav] = useState(false);
+    const [categoryNav,setCategoryNav] = useState(false);
+    const [accountNav,setAccountNav] = useState(false);
     const setSearchState = useSetRecoilState(searchState);
     function logout() {
         localStorage.removeItem("token");
@@ -27,7 +27,14 @@ export const Navbar = () => {
         setBlogs([]);
         navigate("/login");
     }
+
+    const categoryStyles = {
+        "display": categoryNav ? "block": "none",
+    }
     
+    const accountStyles = {
+        "display": accountNav ? "block": "none",
+    }
 
     return (
         <header className="h-[20%] flex flex-col lg:flex-col lg:items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">
@@ -57,14 +64,25 @@ export const Navbar = () => {
             </nav>
             <nav className="flex items-center gap-5 p-4 px-20 mt-10 text-xl font-extrabold leading-10 bg-white rounded-[50px] font-monsterrat max-lg:hidden border-4 border-black border-b-[10px] before:w-10 before:h-2 before:border-2 before:border-black before:translate-x-[-80px] before:bg-black after:w-10 after:h-2 after:border-2 after:border-black after:translate-x-[80px] after:bg-black">
                 <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/")}>Home</div>
-                <div className="flex items-center justify-between gap-2 cursor-pointer hover:text-[#f16363]">
+                <div className="relative flex items-center justify-between gap-2 cursor-pointer hover:text-[#f16363]" onClick={() => setCategoryNav(prev => !prev)}>
                     <div>Categories</div>
                     <BiSolidDownArrow className="text-sm cursor-pointer"/>
+                    <div className="absolute z-20 px-10 py-4 translate-x-[-20px] bg-white top-16 border-4 border-black rounded-b-xl" style={categoryStyles}>
+                        <div className="hover:text-[#f16363] text-black">Food</div>
+                        <div className="hover:text-[#f16363] text-black">Technology</div>
+                        <div className="hover:text-[#f16363] text-black">Travel</div>
+                        <div className="hover:text-[#f16363] text-black">Business</div>
+                    </div>
                 </div>
                 <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/blogs/addblog")}>Create Blog</div>
-                <div className="flex items-center justify-between gap-2 hover:text-[#f16363]">
+                <div className="flex items-center justify-between gap-2 hover:text-[#f16363] relative" onClick={() => setAccountNav(prev => !prev)}>
                     <div className="cursor-pointer">Account</div>
                     <BiSolidDownArrow className="text-sm cursor-pointer "/>
+                    <div className="absolute z-20 px-10 py-4 translate-x-[-20px] bg-white top-16 border-4 border-black rounded-b-xl" style={accountStyles}>
+                        {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/register")}>Register</div>}
+                        {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/login")}>Sign In</div>}
+                        {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={logout}>Sign Out</div>}
+                    </div>
                 </div>
             </nav>
         </header>
