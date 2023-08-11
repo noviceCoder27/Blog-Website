@@ -1,0 +1,27 @@
+Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files
+
+Multer-s3 is a storage engine for multer that allows you to upload files directly to Amazon S3.
+
+//FormData() concepts
+
+The value passed to the append() method of a FormData object can be a string, a Blob (including subclasses such as File), or a USVString object. This means that you can append strings, files, and other binary data to a FormData object.
+
+If you want to append an object to a FormData object, you can do so by converting the object to a JSON string and then appending the JSON string as a value. Here’s an example:
+
+const myObject = { key1: 'value1', key2: 'value2' };
+const formData = new FormData();
+formData.append('myObject', JSON.stringify(myObject));
+Copy
+In this example, we are converting the myObject object to a JSON string using the JSON.stringify() method and then appending the resulting JSON string to the formData object with the key 'myObject'. When this formData object is sent to a server, the server can parse the JSON string to reconstruct the original object.
+
+//key function in multer s3
+
+The key function is a callback function that is used to determine the key (i.e., the name) of the uploaded file in the Amazon S3 bucket. The function takes three arguments: req, file, and cb. req is the Express request object, file is the file being uploaded, and cb is a callback function that should be called with the desired key as its second argument.
+
+
+//Backend working
+
+1) Import required dependencies
+2) Create fileFilter function(optional) and specify file mimetype to image types
+3) Crate s3 instance
+4) Create an upload instance of multer with storage of multer s3(storage engine)

@@ -80,7 +80,12 @@ async function getUserDetails(req,res) {
         const {user_id} = blog;
         try {
             const user = await usersModel.findById(user_id);
-            res.status(200).send({name:user.userName,description:user.userDescription,email:user.email});
+            res.status(200).send({
+                name:user.userName,
+                description:user.userDescription,
+                email:user.email,
+                profilePicture:user.profilePicture
+            });
         } catch(err) {
             console.log(err);
         }
@@ -91,4 +96,17 @@ async function getUserDetails(req,res) {
 
 }
 
-module.exports = {register,login,updateUserCredentials,getUser,getUserDetails}
+async function updateProfilePic(req,res) {
+    // Get the URL of the uploaded file
+    const fileUrl = req.file.location;
+    const id = req.user._id;
+    try {
+        await usersModel.findByIdAndUpdate(id, {profilePicture: fileUrl},{new:true});
+        res.status(200).send("Successfully updated profile picture");
+    } catch(err) {
+        res.status(400).send("Failed to set profile pic");
+    }
+    
+}
+
+module.exports = {register,login,updateUserCredentials,getUser,getUserDetails,updateProfilePic}

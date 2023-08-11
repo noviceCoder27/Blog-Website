@@ -23,6 +23,16 @@ async function showUserBlogs(req,res) {
     }
 }
 
+async function showBlogsByCategory(req,res) {
+    const {category} = req.params;
+    try {
+        const blogs = await blogsModel.find({category});
+        res.status(200).send(blogs);
+    } catch(err) {
+        res.status(400).send("Error finding blogs");
+    }
+}
+
 async function showBlog(req,res) {
     const {id: _id} = req.params;
     try {
@@ -37,17 +47,33 @@ async function showBlog(req,res) {
     }   
 }
 
-async function createBlog(req,res) {
-    const user_id = req.user._id;
-    const {title,content,category} = req.body;
+async function uploadBlogPicture(fileUrl,blog) {
+    const id = blog._id;
     try {
-        const blog = await blogsModel.create({title,content,category,user_id});
-        res.status(200).send(blog);
+        await blogsModel.findByIdAndUpdate(id,{blogImage: fileUrl},{new:true});
+        return true;
+    } catch(err) {
+        console.log(err);
+        return false;
+       
+    }
+}
+
+async function createBlog(req,res) {
+    const fileUrl = req.file.location;
+    const user_id = req.user._id;
+    const {title,content,category} = JSON.parse(req.body.blog);
+    try {
+        const blog = await blogsModel.create({title,content,category,user_id,blogImage:fileUrl});
+        const uploadImageURL = await uploadBlogPicture(fileUrl,blog);
+        if(!uploadImageURL) {
+            return res.status(400).send("Error adding image to mongo");
+        }
+        res.status(200).send("Successfully uploaded blog");
     } catch(err) {
         console.log(err);
         res.status(400).send("Error adding blog");
     }
-     
 }
 
 async function deleteBlog(req,res) {
@@ -81,4 +107,4 @@ async function updateBlog(req,res) {
     }   
 }
 
-module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,showBlog}
+module.exports =  {showAllBlogs,showUserBlogs,createBlog,deleteBlog,updateBlog,showBlog,showBlogsByCategory}

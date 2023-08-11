@@ -9,6 +9,9 @@ import { BsTwitter } from "react-icons/bs";
 import { Loader } from "../components/Loader";
 import { BsPencilSquare } from "react-icons/bs";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import { SiGooglelens } from "react-icons/si";
+import { MdCloudUpload } from "react-icons/md";
+
 
 
 
@@ -21,6 +24,8 @@ export const BlogContent = () => {
   const [userDetials,setUserDetails] = useState({userName: "", userDescription: ""});
   const [toggleUserName,setToggleUsername] = useState(false);
   const [toggleUserDescription,setToggleUserDescription] = useState(false);
+  const [selectedFile,setSelectedFile] = useState(null);
+  const [uploadFileToggle,setuploadFileToggle] = useState(false);
   const months = ["Jan", "Feb", "March", "April", "May","Jun", "Jul", "Aug","Sept","Oct","Nov","Dec"];
   let createdAt;
 
@@ -53,7 +58,7 @@ export const BlogContent = () => {
     }
    
   },[blog]);
-
+  
 
   async function updateCredentials() {
    
@@ -74,6 +79,36 @@ export const BlogContent = () => {
    
   }
 
+  const handleFileChange = async (e) => {
+    setSelectedFile(e.target.files[0]);
+    setuploadFileToggle(true);
+}
+
+const fileUpload = async () => {
+    if (!selectedFile) {
+        setuploadFileToggle(false);
+        return;
+      }
+
+    // Create form data object and append file
+    const formData = new FormData();
+    formData.append('profilePicture', selectedFile);
+
+    // Send PUT request to server with form data
+    try {
+      await axios.put(`http://localhost:3000/user/profilePic`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer " + localStorage.getItem("token") 
+        }
+      });
+      console.log('Profile picture updated successfully');
+    } catch (err) {
+      console.error(err);
+    }
+    setuploadFileToggle(false);
+}
+
 
   const date = new Date(blog?.createdAt);
   const day = date.getDay();
@@ -91,14 +126,14 @@ export const BlogContent = () => {
     )
   }
 
-
-  console.log(user);
-
   
   return (
     <div className="flex justify-between w-full gap-12 p-10 px-20 overflow-visible max-lg:flex-col">
         <section className="border-4 border-black rounded-[40px] w-full h-fit flex flex-col px-10 pb-5 bg-white font-monsterrat border-b-8">
-          <div className="w-full mt-10 border-4 border-black h-[70vh] rounded-[40px] ml-auto mr-auto"></div>
+          <div className="w-full mt-10 border-4 border-black h-[70vh] rounded-[40px] ml-auto mr-auto flex">
+            {blog?.blogImage && <img src = {blog?.blogImage} alt = "Blog image" className="rounded-[35px]"/>}
+            {!blog?.blogImage && <img src = "https://www.appliedart.com/assets/images/blog/blogging-SMB.png" alt = "Blog image" className="rounded-[35px]"/>}
+          </div>
           <h1 className="mt-5 text-4xl font-extrabold text-center">{blog?.title}</h1>
           <div className="flex items-center justify-center gap-5 text-xl font-bold">
             <FaCalendarAlt className="text-2xl mr-[-8px] mb-1"/>
@@ -110,8 +145,15 @@ export const BlogContent = () => {
         </section>
         <section className="lg:sticky lg:top-5 border-4 border-black rounded-[40px] min-w-[25vw] h-fit min-h-[70vh] flex flex-col items-center bg-white px-5 border-b-8">
           <div className="p-2 px-20 text-sm font-bold text-white bg-black rounded-b-3xl font-monsterrat">ABOUT ME</div>
-          <div className="mt-5 border-4 border-black rounded-full h-52 w-52">
-            <img />
+          <div className="mt-5 border-4 border-black rounded-full h-52 w-52 flex items-center justify-center flex-col relative hover:opacity-50">
+            <img src = {user?.profilePicture} alt = "Profile Picture" className="w-full rounded-full"/>
+            {!uploadFileToggle && 
+              <>
+                 <SiGooglelens className="text-3xl absolute cursor-pointer"/>
+                  <input type="file" onChange={(e) => handleFileChange(e)} className="absolute file:cursor-pointer text-white text-[1px] file:text-[5px] file:p-3 ml-2 opacity-0 z-10"/>
+              </>
+            }
+            {uploadFileToggle && <MdCloudUpload onClick={fileUpload} className="absolute text-3xl cursor-pointer"/>}
           </div>
           <div className="flex items-center">
             {!toggleUserName && <h1 className="mt-5 text-3xl font-extrabold" >{user?.name || user?.email}</h1>}
@@ -139,8 +181,7 @@ export const BlogContent = () => {
             <AiFillInstagram className="cursor-pointer"/>
             <AiFillLinkedin className="cursor-pointer"/>
           </div>
-        </section>
-     
+        </section>       
     </div>
   )
 }

@@ -20,6 +20,10 @@ const usersSchema = new Schema({
     userDescription: {
         type: String
     },
+
+    profilePicture : {
+        type: String
+    }
     
 },{timestamps: true});
 

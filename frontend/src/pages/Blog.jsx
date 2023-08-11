@@ -9,7 +9,7 @@ import axios from "axios";
 
 
 
-export const Blog = ({index,blog,id}) => {
+export const Blog = ({index,blog,id,url}) => {
     const months = ["Jan", "Feb", "March", "April", "May","Jun", "Jul", "Aug","Sept","Oct","Nov","Dec"];
     const navigate = useNavigate();
     const blogs = useRecoilValue(blogState);
@@ -42,8 +42,6 @@ export const Blog = ({index,blog,id}) => {
        getUser(); 
     },[])
 
-
-
     
     return (
         <>
@@ -54,8 +52,8 @@ export const Blog = ({index,blog,id}) => {
                 <p className="my-5">{blog.category}</p>
                 </div>
                 <div className="flex flex-col p-8">
-                    <div className="h-[500px] border-8 border-black rounded-[40px] flex ">
-                        <img src = "" alt = "Blog Image" className="w-full rounded-[30px] "/>
+                    <div className="h-[500px] border-4 border-black rounded-[40px] flex ">
+                        <img src = {url} alt = "Blog Image" className="w-full rounded-[30px] "/>
                     </div>
                          
                     <div className="m-5 text-center">
@@ -70,7 +68,6 @@ export const Blog = ({index,blog,id}) => {
                         </button>
                     <div className="w-20 h-[5px] bg-black"></div>
                     </div>
-                            
             </div>
             
         </>

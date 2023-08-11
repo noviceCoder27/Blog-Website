@@ -82,6 +82,7 @@ export const Navbar = () => {
                         {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/register")}>Register</div>}
                         {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/login")}>Sign In</div>}
                         {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={logout}>Sign Out</div>}
+                        {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={logout}>My Blogs</div>}
                     </div>
                 </div>
             </nav>

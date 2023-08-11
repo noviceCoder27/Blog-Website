@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Buffer} from 'buffer'
 
 
 export const CreateBlog = () => {
@@ -9,14 +8,18 @@ export const CreateBlog = () => {
     const [title,setTitle] = useState("");
     const [content,setContent] = useState("");
     const [category,setCategory] = useState("");
+    const [selectedImage,setSelectedImage] = useState(null);
 
     async function createBlog(e) {
         e.preventDefault();
         const blog = {title,content,category};
-        console.log(blog);
-        const postBlog = await axios.post("http://localhost:3000/blogs",blog, {
+        const formData = new FormData();
+        formData.append("blogImage",selectedImage);
+        formData.append("blog",JSON.stringify(blog));
+        const postBlog = await axios.post("http://localhost:3000/blogs",formData, {
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "multipart/form-data"
             }
         });
         console.log(postBlog);
@@ -25,10 +28,7 @@ export const CreateBlog = () => {
 
     async function getFile(e) {
         e.preventDefault();
-        const file = await fetch(e.target.files[0]);
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        console.log(buffer);
+        setSelectedImage(e.target.files[0]);
     }
 
     return (
@@ -52,8 +52,8 @@ export const CreateBlog = () => {
             <section className="h-[60vh] mb-20 relative" >
                 <label className="self-start mt-2 text-xl font-bold font-monsterrat">Content: </label>
                 <textarea value = {content} onChange={(e) => setContent(e.target.value)} className="mt-4 min-w-[20vw]  p-2 py-3 border-black border-4 rounded-[20px] font-monsterrat text-lg  mb-4 lg:flex-1 w-full h-full pb-20"></textarea>
-                <input type="image" src="https://cdn-icons-png.flaticon.com/512/1375/1375157.png" alt="Gallery icon" className="absolute bottom-0 w-10 p-1 translate-y-4 bg-red-500 rounded-md cursor-pointer left-5 opacity-90" onClick={(e) => {e.preventDefault()}}/>
-                <input type = "file" className="absolute bottom-0 z-10 w-10 p-2 translate-y-4 opacity-0 left-5" onChange={(e) => getFile(e)}/>
+                <input type="image" src="https://cdn-icons-png.flaticon.com/512/1375/1375157.png" alt="Gallery icon" className="absolute bottom-0 w-10 p-1 translate-y-4 rounded-md cursor-pointer left-5 opacity-90" onClick={(e) => {e.preventDefault()}}/>
+                <input type = "file" className="absolute bottom-0  z-10 file:w-10 file:opacity-0  p-2 translate-y-5  left-5 file:cursor-pointer" onChange={(e) => getFile(e)} />
             </section>
             <button type = "submit" onClick={(e) => createBlog(e)} className="p-2 py-3 px-10 rounded-[50px] border-4 border-black font-monsterrat font-extrabold text-lg bg-[#ffcc00] hover:bg-gray-300 self-center">Create Blog</button>
         </form>
