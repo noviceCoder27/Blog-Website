@@ -12,6 +12,21 @@ import { Loader } from "../components/Loader";
 export const Blogs = () => {
     const search = useRecoilValue(searchState);
     const blogs = useRecoilValue(blogState);
+    const setBlogs = useSetRecoilState(blogState);
+
+    useEffect(() => {
+        async function getBlogs() {
+            try {
+                const blogsObj = await axios.get("http://localhost:3000/blogs");
+                const getBlogs = blogsObj?.data;
+                setBlogs(getBlogs);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        getBlogs();
+    },[]);
+    
     
     if(blogs.length === 0) {
         return (
