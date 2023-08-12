@@ -145,11 +145,11 @@ const fileUpload = async () => {
         </section>
         <section className="lg:sticky lg:top-5 border-4 border-black rounded-[40px] min-w-[25vw] h-fit min-h-[70vh] flex flex-col items-center bg-white px-5 border-b-8">
           <div className="p-2 px-20 text-sm font-bold text-white bg-black rounded-b-3xl font-monsterrat">ABOUT ME</div>
-          <div className="mt-5 border-4 border-black rounded-full h-52 w-52 flex items-center justify-center flex-col relative hover:opacity-50">
+          <div className="relative flex flex-col items-center justify-center mt-5 border-4 border-black rounded-full h-52 w-52 hover:opacity-50">
             <img src = {user?.profilePicture} alt = "Profile Picture" className="w-full rounded-full"/>
             {!uploadFileToggle && 
               <>
-                 <SiGooglelens className="text-3xl absolute cursor-pointer"/>
+                 <SiGooglelens className="absolute text-3xl cursor-pointer"/>
                   <input type="file" onChange={(e) => handleFileChange(e)} className="absolute file:cursor-pointer text-white text-[1px] file:text-[5px] file:p-3 ml-2 opacity-0 z-10"/>
               </>
             }
@@ -165,7 +165,8 @@ const fileUpload = async () => {
               }}><BsFillHandThumbsUpFill /></button>}
           </div>
           <div className="flex items-center w-full">
-            {user?.description && !toggleUserDescription && <p className="self-start mt-4 mb-2 ml-auto font-semibold break-all">{user?.description}</p>}
+            {user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="self-start mt-4 mb-2 ml-auto font-semibold break-all">{user?.description}</p>}
+            {user?.description && !toggleUserDescription && !localStorage.getItem("token") &&  <p className="self-start mt-4 mb-2 ml-auto mr-auto font-semibold break-all">{user?.description}</p>}
             {!user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="mt-5 ml-auto font-monsterrat">Add a description</p>}
             {!user?.description && !toggleUserDescription && !localStorage.getItem("token") && <i className="mt-5 ml-auto mr-auto font-monsterrat">No description</i>}
             {!toggleUserDescription && localStorage.getItem("token") && <BsPencilSquare className="min-w-[20px] min-h-[20px] cursor-pointer hover:text-[#f16363] mr-auto" onClick={() => setToggleUserDescription(true)}/>}
