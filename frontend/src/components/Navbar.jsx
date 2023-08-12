@@ -10,6 +10,7 @@ import { BiSolidRightArrow } from "react-icons/bi";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { useState } from "react";
 import { searchState } from './../store/atoms/searchAtom';
+import axios from "axios";
 
 
 export const Navbar = () => {
@@ -20,6 +21,46 @@ export const Navbar = () => {
     const [categoryNav,setCategoryNav] = useState(false);
     const [accountNav,setAccountNav] = useState(false);
     const setSearchState = useSetRecoilState(searchState);
+
+    async function getAllBlogs() {
+        try {
+            const blogsObj = await axios.get("http://localhost:3000/blogs");
+            const getBlogs = blogsObj?.data;
+            setBlogs(getBlogs);
+            navigate("/");
+        } catch(err) {
+            console.log(err);
+        }
+    }
+    
+
+    async function myBlogs() {
+        try {
+            const getBlogsObj = await axios.get(`http://localhost:3000/blogs/getBlogs/me`,{
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token") 
+                }
+            });
+            const getBlogs = getBlogsObj.data;
+            setBlogs(getBlogs);
+            navigate("/");
+        } catch(err) {
+            console.log(err);
+        }
+    }
+    
+    async function searchByCategory(category) {
+        try {
+            const getBlogsObj = await axios.get(`http://localhost:3000/blogs/showAll/${category}`);
+            const getBlogs = getBlogsObj.data;
+            setBlogs(getBlogs);
+            navigate("/");
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
+    
     function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -63,26 +104,30 @@ export const Navbar = () => {
                 </div>
             </nav>
             <nav className="flex items-center gap-5 p-4 px-20 mt-10 text-xl font-extrabold leading-10 bg-white rounded-[50px] font-monsterrat max-lg:hidden border-4 border-black border-b-[10px] before:w-10 before:h-2 before:border-2 before:border-black before:translate-x-[-80px] before:bg-black after:w-10 after:h-2 after:border-2 after:border-black after:translate-x-[80px] after:bg-black">
-                <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/")}>Home</div>
-                <div className="relative flex items-center justify-between gap-2 cursor-pointer hover:text-[#f16363]" onClick={() => setCategoryNav(prev => !prev)}>
+                <div className="cursor-pointer hover:text-[#f16363]" onClick={getAllBlogs}>Home</div>
+                <div className="relative flex items-center justify-between gap-2 cursor-pointer hover:text-[#f16363]" onClick={() => {
+                    setCategoryNav(prev => !prev)
+                    setAccountNav(false)}}>
                     <div>Categories</div>
                     <BiSolidDownArrow className="text-sm cursor-pointer"/>
                     <div className="absolute z-20 px-10 py-4 translate-x-[-20px] bg-white top-16 border-4 border-black rounded-b-xl" style={categoryStyles}>
-                        <div className="hover:text-[#f16363] text-black">Food</div>
-                        <div className="hover:text-[#f16363] text-black">Technology</div>
-                        <div className="hover:text-[#f16363] text-black">Travel</div>
-                        <div className="hover:text-[#f16363] text-black">Business</div>
+                        <div className="hover:text-[#f16363] text-black" onClick={() => searchByCategory("food")}>Food</div>
+                        <div className="hover:text-[#f16363] text-black" onClick={() => searchByCategory("tech")}>Technology</div>
+                        <div className="hover:text-[#f16363] text-black" onClick={() => searchByCategory("travel")}>Travel</div>
+                        <div className="hover:text-[#f16363] text-black" onClick={() => searchByCategory("business")}>Business</div>
                     </div>
                 </div>
                 <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/blogs/addblog")}>Create Blog</div>
-                <div className="flex items-center justify-between gap-2 hover:text-[#f16363] relative" onClick={() => setAccountNav(prev => !prev)}>
+                <div className="flex items-center justify-between gap-2 hover:text-[#f16363] relative" onClick={() => {
+                    setAccountNav(prev => !prev)
+                    setCategoryNav(false)}}>
                     <div className="cursor-pointer">Account</div>
                     <BiSolidDownArrow className="text-sm cursor-pointer "/>
-                    <div className="absolute z-20 px-10 py-4 translate-x-[-20px] bg-white top-16 border-4 border-black rounded-b-xl" style={accountStyles}>
+                    <div className="absolute z-20 px-10 w-48 py-4 translate-x-[-20px] bg-white top-16 border-4 border-black rounded-b-xl" style={accountStyles}>
                         {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/register")}>Register</div>}
                         {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/login")}>Sign In</div>}
                         {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={logout}>Sign Out</div>}
-                        {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={logout}>My Blogs</div>}
+                        {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={myBlogs}>My Blogs</div>}
                     </div>
                 </div>
             </nav>

@@ -33,7 +33,7 @@ export const CreateBlog = () => {
 
     return (
         <form className="flex flex-col p-20 h-fit">
-            <section className="relative flex gap-5 w-[50%]" >
+            <section className="relative flex gap-5 w-[50%] max-sm:flex-col" >
                 <div>
                     <label className="text-xl font-bold font-monsterrat">Title: </label>
                     <input type = "text" value = {title} onChange={(e) => setTitle(e.target.value)} className=" mt-4 text-center min-w-[20vw]  p-2 py-3 border-black border-4 rounded-[20px] font-monsterrat text-lg font-bold mb-4 lg:flex-1" placeholder="Enter a title for your blog"/>
@@ -53,7 +53,7 @@ export const CreateBlog = () => {
                 <label className="self-start mt-2 text-xl font-bold font-monsterrat">Content: </label>
                 <textarea value = {content} onChange={(e) => setContent(e.target.value)} className="mt-4 min-w-[20vw]  p-2 py-3 border-black border-4 rounded-[20px] font-monsterrat text-lg  mb-4 lg:flex-1 w-full h-full pb-20"></textarea>
                 <input type="image" src="https://cdn-icons-png.flaticon.com/512/1375/1375157.png" alt="Gallery icon" className="absolute bottom-0 w-10 p-1 translate-y-4 rounded-md cursor-pointer left-5 opacity-90" onClick={(e) => {e.preventDefault()}}/>
-                <input type = "file" className="absolute bottom-0  z-10 file:w-10 file:opacity-0  p-2 translate-y-5  left-5 file:cursor-pointer" onChange={(e) => getFile(e)} />
+                <input type = "file" className="absolute bottom-0 z-10 p-2 translate-y-5 file:w-10 file:opacity-0 left-5 file:cursor-pointer" onChange={(e) => getFile(e)} />
             </section>
             <button type = "submit" onClick={(e) => createBlog(e)} className="p-2 py-3 px-10 rounded-[50px] border-4 border-black font-monsterrat font-extrabold text-lg bg-[#ffcc00] hover:bg-gray-300 self-center">Create Blog</button>
         </form>

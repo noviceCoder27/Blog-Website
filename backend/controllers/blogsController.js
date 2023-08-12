@@ -24,9 +24,9 @@ async function showUserBlogs(req,res) {
 }
 
 async function showBlogsByCategory(req,res) {
-    const {category} = req.params;
+    const {category: _category} = req.params;
     try {
-        const blogs = await blogsModel.find({category});
+        const blogs = await blogsModel.find({category: _category});
         res.status(200).send(blogs);
     } catch(err) {
         res.status(400).send("Error finding blogs");
