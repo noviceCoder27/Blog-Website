@@ -18,6 +18,7 @@ export const Navbar = () => {
     const setUser = useSetRecoilState(userState);
     const setBlogs = useSetRecoilState(blogState);
     const [showNav,setShowNav] = useState(false);
+    const [mobileNav,setMobileNav] = useState({category: false, account: false});
     const [categoryNav,setCategoryNav] = useState(false);
     const [accountNav,setAccountNav] = useState(false);
     const setSearchState = useSetRecoilState(searchState);
@@ -77,6 +78,16 @@ export const Navbar = () => {
         "display": accountNav ? "block": "none",
     }
 
+    const mobileCategory = {
+        "display": mobileNav.category ? "block": "none",
+    }
+    
+    const mobileAccount = {
+        "display": mobileNav.account ? "block": "none",
+    }
+
+    
+
     return (
         <header className="h-[20%] flex flex-col lg:flex-col lg:items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">
             <div className="flex justify-between w-full lg:justify-center lg:mt-10">
@@ -91,17 +102,31 @@ export const Navbar = () => {
                 
             </div>
             <img src = {Underline} className="w-[22%] min-w-[130px] block max-lg:hidden max-w-[300px]"/>
-            <nav className={`text-xl font-extrabold leading-10 transition duration-500 ease-out transform origin-top ${showNav ? 'scale-y-100' : 'scale-y-0'} ${showNav ? 'h-full' : 'h-0'} ${showNav ? 'mt-10' : 'mt-0'} font-monsterrat`}>
-                <div onClick={() => navigate("/")}>Home</div>
+            <nav className={`text-xl font-extrabold leading-10 transition duration-500 ease-out transform lg:hidden origin-top ${showNav ? 'scale-y-100' : 'scale-y-0'} ${showNav ? 'h-full' : 'h-0'} ${showNav ? 'mt-10' : 'mt-0'} font-monsterrat`}>
+                <div className="cursor-auto hover:text-[#f16363]" onClick={() => navigate("/")}>Home</div>
                 <div className="flex justify-between">
-                    <div>Categories</div>
-                    <BiSolidRightArrow className="cursor-pointer"/>
+                    <div className="cursor-pointer hover:text-[#f16363]">Categories</div>
+                    {!mobileNav.category && <BiSolidRightArrow className="cursor-pointer" onClick={() =>setMobileNav(prev => ({...prev, category: !prev.category}))}/>}
+                    {mobileNav.category && <BiSolidDownArrow className="cursor-pointer" onClick={() =>setMobileNav(prev => ({...prev, category: !prev.category}))}/>}
                 </div>
-                <div onClick={() => navigate("/blogs/addblog")}>Create Blog</div>
+                <div style = {mobileCategory}>
+                        <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => searchByCategory("food")}>Food</div>
+                        <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => searchByCategory("tech")}>Technology</div>
+                        <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => searchByCategory("travel")}>Travel</div>
+                        <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => searchByCategory("business")}>Business</div>
+                </div>
+                <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/blogs/addblog")}>Create Blog</div>
                 <div className="flex justify-between">
-                    <div>Account</div>
-                    <BiSolidRightArrow className="cursor-pointer"/>
+                    <div className="cursor-pointer hover:text-[#f16363]">Account</div>
+                    {!mobileNav.account && <BiSolidRightArrow className="cursor-pointer" onClick={() =>setMobileNav(prev => ({...prev, account: !prev.account}))}/>}
+                    {mobileNav.account && <BiSolidDownArrow className="cursor-pointer" onClick={() =>setMobileNav(prev => ({...prev, account: !prev.account}))}/>}
                 </div>
+                <div className="" style={mobileAccount}>
+                        {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/register")}>Register</div>}
+                        {!localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={() => navigate("/login")}>Sign In</div>}
+                        {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={logout}>Sign Out</div>}
+                        {localStorage.getItem("token") && <div className="hover:text-[#f16363] text-black cursor-pointer" onClick={myBlogs}>My Blogs</div>}
+                    </div>
             </nav>
             <nav className="flex items-center gap-5 p-4 px-20 mt-10 text-xl font-extrabold leading-10 bg-white rounded-[50px] font-monsterrat max-lg:hidden border-4 border-black border-b-[10px] before:w-10 before:h-2 before:border-2 before:border-black before:translate-x-[-80px] before:bg-black after:w-10 after:h-2 after:border-2 after:border-black after:translate-x-[80px] after:bg-black">
                 <div className="cursor-pointer hover:text-[#f16363]" onClick={getAllBlogs}>Home</div>
