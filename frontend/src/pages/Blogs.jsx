@@ -40,9 +40,9 @@ export const Blogs = () => {
             {!search && 
             <>
             
-                 <section  className="flex flex-wrap justify-center gap-5 mt-20 mb-5">
+                 <section  className="flex flex-wrap gap-5 md:m-10 max-md:m-4 max-md:justify-center">
                     {blogs.map((blog,index) => (
-                    <article key = {blog._id} className="mx-4 min-sm:min-w-[450px] bg-white max-sm:w-full lg:w-[30vw] lg:max-w-[700px] min-h-[600px] border-4 border-black border-b-[12px] rounded-[40px] flex flex-col">
+                    <article key = {blog._id} className="mx-4 min-sm:min-w-[450px] bg-white max-sm:w-full lg:w-[35vw] lg:max-w-[500px] min-h-[500px] border-4 border-black border-b-[12px] rounded-[40px] flex flex-col">
                         <Blog index = {index} blog = {blog} id = {blog._id} url = {blog.blogImage}/>
                     </article>
                 ))}

@@ -52,7 +52,7 @@ export const Blog = ({index,blog,id,url}) => {
                 <p className="my-5">{blog.category}</p>
                 </div>
                 <div className="flex flex-col p-8">
-                    <div className="h-[500px] border-4 border-black rounded-[40px] flex ">
+                    <div className=" border-4 border-black rounded-[40px] flex ">
                     {!url && <img src = "https://www.appliedart.com/assets/images/blog/blogging-SMB.png" alt = "Blog Image" className="w-full rounded-[35px] "/>}
                      {url && <img src = {url} alt = "Blog Image" className="w-full rounded-[35px] "/>}
                     </div>

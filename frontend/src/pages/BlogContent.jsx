@@ -21,24 +21,14 @@ export const BlogContent = () => {
   const {id} = useParams();
   const [blog,setBlog] = useState(null);
   const [user,setUser] = useState(null);
+  const [currentUser,setCurrentUser] = useState(null);
   const [userDetials,setUserDetails] = useState({userName: "", userDescription: ""});
   const [toggleUserName,setToggleUsername] = useState(false);
   const [toggleUserDescription,setToggleUserDescription] = useState(false);
   const [selectedFile,setSelectedFile] = useState(null);
-  const [uploadFileToggle,setuploadFileToggle] = useState(false);
+  const [uploadFileToggle,setUploadFileToggle] = useState(false);
   const months = ["Jan", "Feb", "March", "April", "May","Jun", "Jul", "Aug","Sept","Oct","Nov","Dec"];
   let createdAt;
-
-  
-  async function getUserDetails() {
-    try {
-      const userObj = await axios.post('http://localhost:3000/user/userdetails',{blog_id: String(blog._id)});
-      setUser(userObj.data);
-      setUserDetails({userName: user?.name, userDescription: user?.description})
-    } catch(err) {
-      console.log(err);
-    }
-  }
 
   useEffect(() => {
     async function getBlogContent() {
@@ -55,11 +45,39 @@ export const BlogContent = () => {
   useEffect(() => {
     if(blog) {
       getUserDetails();
+      if(localStorage.getItem("token")) {
+        getCurrentUser();
+      }
     }
-   
   },[blog]);
-  
 
+
+  
+  async function getUserDetails() {
+    try {
+      const userObj = await axios.post('http://localhost:3000/user/userdetails',{blog_id: String(blog._id)});
+      setUser(userObj.data);
+      setUserDetails({userName: user?.name, userDescription: user?.description})
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  const getCurrentUser = async() => {
+    try {
+      const userObj = await axios.get('http://localhost:3000/user/getUser',{
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+      });
+      if(blog.user_id === userObj.data._id) {
+        setCurrentUser(userObj.data); 
+      }
+    } catch(err) {
+      console.log("Failed to fetch current user", err);
+    }
+  }
+    
   async function updateCredentials() {
    
     try {
@@ -81,12 +99,12 @@ export const BlogContent = () => {
 
   const handleFileChange = async (e) => {
     setSelectedFile(e.target.files[0]);
-    setuploadFileToggle(true);
+    setUploadFileToggle(true);
 }
 
 const fileUpload = async () => {
     if (!selectedFile) {
-        setuploadFileToggle(false);
+        setUploadFileToggle(false);
         return;
       }
 
@@ -106,7 +124,7 @@ const fileUpload = async () => {
     } catch (err) {
       console.error(err);
     }
-    setuploadFileToggle(false);
+    setUploadFileToggle(false);
 }
 
 
@@ -145,9 +163,9 @@ const fileUpload = async () => {
         </section>
         <section className="lg:sticky lg:top-5 border-4 border-black rounded-[40px] min-w-[25vw] h-fit min-h-[70vh] flex flex-col items-center bg-white px-5 border-b-8">
           <div className="p-2 px-20 text-sm font-bold text-white bg-black rounded-b-3xl font-monsterrat">ABOUT ME</div>
-          <div className="relative flex flex-col items-center justify-center mt-5 border-4 border-black rounded-full h-52 w-52 hover:opacity-50">
+          <div className={`relative flex flex-col items-center justify-center mt-5 border-4 border-black rounded-full h-52 w-52 ${currentUser && "hover:opacity-50"}`}>
             <img src = {user?.profilePicture} alt = "Profile Picture" className="w-full rounded-full"/>
-            {!uploadFileToggle && 
+            {currentUser && !uploadFileToggle && 
               <>
                  <SiGooglelens className="absolute text-3xl cursor-pointer"/>
                   <input type="file" onChange={(e) => handleFileChange(e)} className="absolute file:cursor-pointer text-white text-[1px] file:text-[5px] file:p-3 ml-2 opacity-0 z-10"/>
@@ -158,18 +176,18 @@ const fileUpload = async () => {
           <div className="flex items-center">
             {!toggleUserName && <h1 className="mt-5 text-3xl font-extrabold" >{user?.name || user?.email}</h1>}
             {toggleUserName && <input type="text" className="p-2 px-6 mt-5 ml-6 border-2 border-gray-500 rounded-md" onChange={(e) => setUserDetails(prev => ({userName: e.target.value, userDescription: prev.userDescription}))}/>}
-            {!toggleUserName && localStorage.getItem("token") && <BsPencilSquare className="cursor-pointer hover:text-[#f16363]" onClick={() => setToggleUsername(true)}/>}
+            {!toggleUserName && currentUser && <BsPencilSquare className="cursor-pointer hover:text-[#f16363]" onClick={() => setToggleUsername(true)}/>}
             {toggleUserName && <button className="mt-10 ml-2 text-xl hover:text-[#f16363]" onClick={() => {
               setToggleUsername(false);
               updateCredentials();
               }}><BsFillHandThumbsUpFill /></button>}
           </div>
           <div className="flex items-center w-full">
-            {user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="self-start mt-4 mb-2 ml-auto font-semibold break-all">{user?.description}</p>}
+            {user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="self-start mt-4 mb-2 ml-auto mr-auto font-semibold break-all">{user?.description}</p>}
             {user?.description && !toggleUserDescription && !localStorage.getItem("token") &&  <p className="self-start mt-4 mb-2 ml-auto mr-auto font-semibold break-all">{user?.description}</p>}
             {!user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="mt-5 ml-auto font-monsterrat">Add a description</p>}
-            {!user?.description && !toggleUserDescription && !localStorage.getItem("token") && <i className="mt-5 ml-auto mr-auto font-monsterrat">No description</i>}
-            {!toggleUserDescription && localStorage.getItem("token") && <BsPencilSquare className="min-w-[20px] min-h-[20px] cursor-pointer hover:text-[#f16363] mr-auto" onClick={() => setToggleUserDescription(true)}/>}
+            {!user?.description && !toggleUserDescription && !localStorage.getItem("token") && <i className="mt-5 ml-auto mr-auto font-monsterrat ">No description</i>}
+            {!toggleUserDescription && currentUser && <BsPencilSquare className="min-w-[20px] min-h-[20px] cursor-pointer hover:text-[#f16363] mr-auto" onClick={() => setToggleUserDescription(true)}/>}
             {toggleUserDescription && <textarea className="w-full mt-5 mb-4 ml-6 border-2 border-gray-500 rounded-md zw-full h-52" onChange={(e) => setUserDetails(prev => ({userName: prev.userName, userDescription: e.target.value}))}></textarea>}
             {toggleUserDescription && <button className="ml-2 text-xl mt-auto mb-5 hover:text-[#f16363]" onClick={() => {
               setToggleUserDescription(false);

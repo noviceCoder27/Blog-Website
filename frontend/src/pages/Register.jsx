@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../components/Form";
@@ -14,7 +14,7 @@ export const Register = () => {
     const setUser = useSetRecoilState(userState);
 
 
-    const register = useCallback(async (e) => {
+    const register = async (e) => {
         e.preventDefault();
         const user = {email,password};
         try {
@@ -26,11 +26,11 @@ export const Register = () => {
         } catch(err) {
             console.log(err);
         }
-    },[email,password]);
+    };
 
     return (
         <>
-        <Form email = {email} setEmail = {setEmail} password = {password} setPassword = {setPassword} signin = {register}/>
+            <Form email = {email} setEmail = {setEmail} password = {password} setPassword = {setPassword} signin = {register}/>
         </>
     )
 }

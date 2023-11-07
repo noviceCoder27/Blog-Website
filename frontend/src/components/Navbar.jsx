@@ -99,7 +99,6 @@ export const Navbar = () => {
                     </button>
                     <FaBars className="text-2xl cursor-pointer lg:hidden" onClick={() =>setShowNav(prevNav => !prevNav)}/>
                 </div>
-                
             </div>
             <img src = {Underline} className="w-[22%] min-w-[130px] block max-lg:hidden max-w-[300px]"/>
             <nav className={`text-xl font-extrabold leading-10 transition duration-500 ease-out transform lg:hidden origin-top ${showNav ? 'scale-y-100' : 'scale-y-0'} ${showNav ? 'h-full' : 'h-0'} ${showNav ? 'mt-10' : 'mt-0'} font-monsterrat`}>
