@@ -11,6 +11,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
 import { SiGooglelens } from "react-icons/si";
 import { MdCloudUpload } from "react-icons/md";
+import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 
 
 
@@ -83,7 +84,7 @@ export const BlogContent = () => {
     try {
       const userObj = await axios.put("http://localhost:3000/user/updateCredentials",userDetials, {
         headers: {
-          "Authorization": "Bearer "+ localStorage.getItem("token")
+          "Authorization": "Bearer "+ getFromLocalStorage()
         }
       });
       console.log(userObj);
@@ -117,7 +118,7 @@ const fileUpload = async () => {
       await axios.put(`http://localhost:3000/user/profilePic`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          "Authorization": "Bearer " + localStorage.getItem("token") 
+          "Authorization": "Bearer " + getFromLocalStorage() 
         }
       });
       console.log('Profile picture updated successfully');
@@ -149,7 +150,7 @@ const fileUpload = async () => {
     <div className="flex justify-between w-full gap-12 p-10 px-20 overflow-visible max-lg:flex-col">
         <section className="border-4 border-black rounded-[40px] w-full h-fit flex flex-col px-10 pb-5 bg-white font-monsterrat border-b-8">
           <div className="w-full mt-10 border-4 border-black h-[70vh] rounded-[40px] ml-auto mr-auto flex">
-            {blog?.blogImage && <img src = {blog?.blogImage} alt = "Blog image" className="rounded-[35px]"/>}
+            {blog?.blogImage && <img src = {blog?.blogImage} alt = "Blog image" className="rounded-[35px] w-full"/>}
             {!blog?.blogImage && <img src = "https://www.appliedart.com/assets/images/blog/blogging-SMB.png" alt = "Blog image" className="rounded-[35px]"/>}
           </div>
           <h1 className="mt-5 text-4xl font-extrabold text-center">{blog?.title}</h1>
@@ -164,7 +165,7 @@ const fileUpload = async () => {
         <section className="lg:sticky lg:top-5 border-4 border-black rounded-[40px] min-w-[25vw] h-fit min-h-[70vh] flex flex-col items-center bg-white px-5 border-b-8">
           <div className="p-2 px-20 text-sm font-bold text-white bg-black rounded-b-3xl font-monsterrat">ABOUT ME</div>
           <div className={`relative flex flex-col items-center justify-center mt-5 border-4 border-black rounded-full h-52 w-52 ${currentUser && "hover:opacity-50"}`}>
-            <img src = {user?.profilePicture} alt = "Profile Picture" className="w-full rounded-full"/>
+            <img src = {user?.profilePicture || 'https://i0.wp.com/365webresources.com/wp-content/uploads/2016/09/FREE-PROFILE-AVATARS.png?resize=502%2C494&ssl=1'} alt = "Profile Picture" className="w-full h-full rounded-full"/>
             {currentUser && !uploadFileToggle && 
               <>
                  <SiGooglelens className="absolute text-3xl cursor-pointer"/>
@@ -183,16 +184,19 @@ const fileUpload = async () => {
               }}><BsFillHandThumbsUpFill /></button>}
           </div>
           <div className="flex items-center w-full">
-            {user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="self-start mt-4 mb-2 ml-auto mr-auto font-semibold break-all">{user?.description}</p>}
-            {user?.description && !toggleUserDescription && !localStorage.getItem("token") &&  <p className="self-start mt-4 mb-2 ml-auto mr-auto font-semibold break-all">{user?.description}</p>}
-            {!user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="mt-5 ml-auto font-monsterrat">Add a description</p>}
-            {!user?.description && !toggleUserDescription && !localStorage.getItem("token") && <i className="mt-5 ml-auto mr-auto font-monsterrat ">No description</i>}
-            {!toggleUserDescription && currentUser && <BsPencilSquare className="min-w-[20px] min-h-[20px] cursor-pointer hover:text-[#f16363] mr-auto" onClick={() => setToggleUserDescription(true)}/>}
-            {toggleUserDescription && <textarea className="w-full mt-5 mb-4 ml-6 border-2 border-gray-500 rounded-md zw-full h-52" onChange={(e) => setUserDetails(prev => ({userName: prev.userName, userDescription: e.target.value}))}></textarea>}
-            {toggleUserDescription && <button className="ml-2 text-xl mt-auto mb-5 hover:text-[#f16363]" onClick={() => {
-              setToggleUserDescription(false);
-              updateCredentials();
-              }}><BsFillHandThumbsUpFill /></button>}
+            <div className="flex justify-center w-full bg-red">
+              {user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="self-start mt-4 mb-2 font-semibold break-all">{user?.description}</p>}
+              {user?.description && !toggleUserDescription && !localStorage.getItem("token") &&  <p className="self-start mt-4 mb-2 font-semibold break-all">{user?.description}</p>}
+              {!user?.description && !toggleUserDescription && localStorage.getItem("token") && <p className="mt-5 font-monsterrat">Add a description</p>}
+              {!user?.description && !toggleUserDescription && !localStorage.getItem("token") && <i className="mt-5 font-monsterrat ">No description</i>}
+              {!toggleUserDescription && currentUser && <BsPencilSquare className="min-w-[20px] min-h-[20px] cursor-pointer hover:text-[#f16363] " onClick={() => setToggleUserDescription(true)}/>}
+              {toggleUserDescription && <textarea className="w-full mt-5 mb-4 ml-6 border-2 border-gray-500 rounded-md zw-full h-52" onChange={(e) => setUserDetails(prev => ({userName: prev.userName, userDescription: e.target.value}))}></textarea>}
+              {toggleUserDescription && <button className="ml-2 text-xl mt-auto mb-5 hover:text-[#f16363]" onClick={() => {
+                setToggleUserDescription(false);
+                updateCredentials();
+                }}><BsFillHandThumbsUpFill /></button>}
+            </div>
+            
           </div>
           <div className="flex gap-2 mt-auto mb-5 text-2xl">
             <BiLogoFacebook className="cursor-pointer"/>

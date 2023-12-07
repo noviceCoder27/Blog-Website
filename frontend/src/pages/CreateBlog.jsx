@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 
 
 export const CreateBlog = () => {
@@ -18,7 +19,7 @@ export const CreateBlog = () => {
         formData.append("blog",JSON.stringify(blog));
         const postBlog = await axios.post("http://localhost:3000/blogs",formData, {
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Authorization": "Bearer " + getFromLocalStorage(),
                 "Content-Type": "multipart/form-data"
             }
         });

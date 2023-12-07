@@ -60,7 +60,7 @@ async function uploadBlogPicture(fileUrl,blog) {
 }
 
 async function createBlog(req,res) {
-    const fileUrl = req.file.location;
+    const fileUrl = req.file?.location;
     const user_id = req.user._id;
     const {title,content,category} = JSON.parse(req.body.blog);
     try {

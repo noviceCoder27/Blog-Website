@@ -35,7 +35,7 @@ storage: multerS3({
     bucket: bucketName,
 //   acl: 'public-read', // if region doesn't support Access Control List
     key: function (req, file, cb) {
-        cb(null, `${Date.now().toString()}-${file.originalname}`)
+        cb(null, `${req.user._id}/${Date.now().toString()}-${file.originalname}`)
     }
 }),
 fileFilter: fileFilter,

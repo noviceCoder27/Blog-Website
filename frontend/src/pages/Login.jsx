@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "../components/Form";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../store/atoms/userAtom";
+import { setLocalStorageValue } from "../utils/setLocalStorageValue";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const Login = () => {
         try {
             const registered = await axios.post("http://localhost:3000/user/login",user);
             const registeredUser = registered.data;
-            localStorage.setItem("token", registeredUser.token);
+            setLocalStorageValue("token", registeredUser.token);
             setUser(registeredUser.user);
             navigate("/");
         } catch(err) {

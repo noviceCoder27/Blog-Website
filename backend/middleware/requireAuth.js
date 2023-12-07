@@ -6,7 +6,8 @@ async function authenticateJWT(req,res,next) {
     if(!authorization) {
         return res.status(400).send("Authorization token required");
     }
-    const token = authorization.split(" ")[1];
+    const tokenObj = authorization.split(" ")[1];
+    const {token} = JSON.parse(tokenObj);
     try {
         const {_id} = jwt.verify(token,process.env.SECRET);
         const user = await usersModel.findOne({_id}); 

@@ -11,6 +11,7 @@ import { BiSolidDownArrow } from "react-icons/bi";
 import { useState } from "react";
 import { searchState } from './../store/atoms/searchAtom';
 import axios from "axios";
+import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 
 
 export const Navbar = () => {
@@ -39,7 +40,7 @@ export const Navbar = () => {
         try {
             const getBlogsObj = await axios.get(`http://localhost:3000/blogs/getBlogs/me`,{
                 headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token") 
+                    "Authorization": "Bearer " + getFromLocalStorage() 
                 }
             });
             const getBlogs = getBlogsObj.data;
