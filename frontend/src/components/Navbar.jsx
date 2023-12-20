@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate,useLocation } from "react-router-dom"
 import { useSetRecoilState } from "recoil";
 import { userState } from "../store/atoms/userAtom";
 import { blogState } from './../store/atoms/blogAtom';
@@ -16,6 +16,7 @@ import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 
 export const Navbar = () => {
     const navigate = useNavigate();
+    const {pathname} = useLocation();
     const setUser = useSetRecoilState(userState);
     const setBlogs = useSetRecoilState(blogState);
     const [showNav,setShowNav] = useState(false);
@@ -92,18 +93,18 @@ export const Navbar = () => {
     return (
         <header className="h-[20%] flex flex-col lg:flex-col lg:items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">
             <div className="flex justify-between w-full lg:justify-center lg:mt-10">
-                <img src = {Logo} className="w-[15vw] max-w-[200px] min-w-[100px] lg:ml-40"/>
-                <div className="flex items-center gap-5">
-                    <button className="flex items-center gap-2 ml-20 font-extrabold font-monsterrat">
+                <img src = {Logo} className= {`w-[15vw] max-w-[200px] min-w-[100px] lg:ml-40 lg:${pathname === '/' ? '': 'mr-[10rem]'}`}/>
+                {pathname === "/" && <div className="flex items-center gap-5">
+                   <button className="flex items-center gap-2 ml-20 font-extrabold font-monsterrat">
                         <span className="max-lg:hidden">SEARCH</span>
                         <FaSearch className="text-xl cursor-pointer lg:mb-1" onClick={() => setSearchState(prev => !prev)}/>
                     </button>
                     <FaBars className="text-2xl cursor-pointer lg:hidden" onClick={() =>setShowNav(prevNav => !prevNav)}/>
-                </div>
+                </div>}
             </div>
             <img src = {Underline} className="w-[22%] min-w-[130px] block max-lg:hidden max-w-[300px]"/>
             <nav className={`text-xl font-extrabold leading-10 transition duration-500 ease-out transform lg:hidden origin-top ${showNav ? 'scale-y-100' : 'scale-y-0'} ${showNav ? 'h-full' : 'h-0'} ${showNav ? 'mt-10' : 'mt-0'} font-monsterrat`}>
-                <div className="cursor-auto hover:text-[#f16363]" onClick={() => navigate("/")}>Home</div>
+                <div className="cursor-pointer hover:text-[#f16363]" onClick={() => navigate("/")}>Home</div>
                 <div className="flex justify-between">
                     <div className="cursor-pointer hover:text-[#f16363]">Categories</div>
                     {!mobileNav.category && <BiSolidRightArrow className="cursor-pointer" onClick={() =>setMobileNav(prev => ({...prev, category: !prev.category}))}/>}

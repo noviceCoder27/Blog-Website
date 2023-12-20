@@ -2,15 +2,15 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../utils/getFromLocalStorage";
+import ContentEditor from "../components/ContentEditor";
 
 
 export const CreateBlog = () => {
     const navigate = useNavigate();
     const [title,setTitle] = useState("");
-    const [content,setContent] = useState("");
     const [category,setCategory] = useState("");
+    const [content,setContent] = useState("");
     const [selectedImage,setSelectedImage] = useState(null);
-
     async function createBlog(e) {
         e.preventDefault();
         const blog = {title,content,category};
@@ -52,7 +52,7 @@ export const CreateBlog = () => {
             </section>
             <section className="h-[60vh] mb-20 relative" >
                 <label className="self-start mt-2 text-xl font-bold font-monsterrat">Content: </label>
-                <textarea value = {content} onChange={(e) => setContent(e.target.value)} className="mt-4 min-w-[20vw]  p-2 py-3 border-black border-4 rounded-[20px] font-monsterrat text-lg  mb-4 lg:flex-1 w-full h-full pb-20"></textarea>
+                <ContentEditor content = {content} setContent = {setContent}/>
                 <input type="image" src="https://cdn-icons-png.flaticon.com/512/1375/1375157.png" alt="Gallery icon" className="absolute bottom-0 w-10 p-1 translate-y-4 rounded-md cursor-pointer left-5 opacity-90" onClick={(e) => {e.preventDefault()}}/>
                 <input type = "file" className="absolute bottom-0 z-10 p-2 translate-y-5 file:w-10 file:opacity-0 left-5 file:cursor-pointer" onChange={(e) => getFile(e)} />
             </section>

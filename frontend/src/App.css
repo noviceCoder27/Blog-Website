@@ -1,0 +1,108 @@
+/* Basic editor styles */
+
+.tiptap { 
+    margin-top: 0.75em;
+    border: 3px solid black;
+    border-radius: 12px;
+    height: 60vh;
+    padding-top: max(5rem,12vh);
+    padding-left: 0.8rem;
+    overflow-y: scroll;
+}
+
+.tiptap::-webkit-scrollbar {
+    background: transparent;
+    width: 12px;
+}
+.tiptap::-webkit-scrollbar-thumb {
+    background-color: #dbdad7;
+    border-radius: 12px;
+}
+  
+.tiptap ul,
+.tiptap ol {
+    padding: 0 1rem;
+}
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+    font-weight: 600;
+}
+
+.tiptap h6 { font-size: 110%; }
+.tiptap h5 { font-size: 120%; }
+.tiptap h4 { font-size: 130%; }
+.tiptap h3 { font-size: 150%; }
+.tiptap h2 { font-size: 160%; }
+.tiptap h1 { font-size: 180%; }
+
+
+.tiptap p {
+    margin-bottom: 1rem;
+}
+
+.tiptap code {
+    background-color: #e7e7e7;
+    padding: 0.2rem;
+    border-radius: 4px;
+}
+
+.tiptap pre {
+    background: #e7e7e7;
+    color: black;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    margin-right: 1rem;
+
+}
+.tiptap img {
+    max-width: 100%;
+    height: auto;
+}
+
+.tiptap blockquote {
+    
+}
+
+.tiptap hr {
+    border: none;
+    border-top: 2px solid #0D0D0D;
+    margin: 2rem 0;
+}
+
+
+.tiptap ul {
+    list-style-type: disc;
+}
+
+.tiptap ol {
+    list-style: lower-roman;
+}
+
+.tiptap blockquote {
+    padding-left: 1rem;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    margin-top: 1rem;
+    border-left: 2px solid #0D0D0D;
+    font-style: italic;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+
+
+.is-active {
+    background-color: #94a3b8;
+}
+
+@media screen and (min-height: 800px) {
+    .tiptap  {
+        padding-top: min(5rem,12vh);
+    }
+}

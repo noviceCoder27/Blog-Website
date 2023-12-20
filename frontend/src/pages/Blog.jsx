@@ -60,12 +60,14 @@ export const Blog = ({index,blog,id,url}) => {
                     <div className="m-5 text-center">
                         <h2 className="text-2xl font-extrabold font-monsterrat">{blog.title}</h2>
                         <h3 className="font-extrabold font-monsterrat">{user.name || user.email}</h3>
-                        <p className="font-semibold font-monsterrat">{blog.content.slice(0,50)}</p>
+                        <p className="mt-4 font-semibold font-monsterrat">
+                            Hey there. I am {user.name} the author of this article. If you are curious and interested about this topic,click on the button below to give it a read. Hope you enjoy it and find it useful.
+                        </p>
                     </div>
                     <div className="flex items-center self-center gap-5">
                         <div className="w-20 h-[5px] bg-black"></div>
                         <button onClick={() => navigate(`/blogs/${blog._id}`)} className="bg-[#ffcc00] p-2 px-6 rounded-3xl font-bold font-monsterrat border-4 border-black hover:bg-gray-200">
-                                    READ MORE
+                            READ ARTICLE
                         </button>
                     <div className="w-20 h-[5px] bg-black"></div>
                     </div>

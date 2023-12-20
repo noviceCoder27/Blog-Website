@@ -20,7 +20,7 @@ function App() {
           <Route path = '/register' element = {<Register />} />
           <Route path = '/userblogs' element = {<ProtectedRoutes><UserBlogs /></ProtectedRoutes>} />
           <Route path = '/blogs/:id' element = {<BlogContent />} />
-          <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog /></ProtectedRoutes>} />
+          <Route path = '/blogs/addblog' element = {<ProtectedRoutes><CreateBlog/></ProtectedRoutes>} />
         </Routes>
       </Router>
     </div>

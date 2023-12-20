@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import axios from 'axios'
-import { FaCalendarAlt } from "react-icons/fa";
-import { AiFillLinkedin } from "react-icons/ai";
-import { AiFillInstagram } from "react-icons/ai";
-import { BiLogoFacebook } from "react-icons/bi";
-import { BsTwitter } from "react-icons/bs";
+import { FaCalendarAlt } from "react-icons/fa"
 import { Loader } from "../components/Loader";
 import { BsPencilSquare } from "react-icons/bs";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
 import { SiGooglelens } from "react-icons/si";
 import { MdCloudUpload } from "react-icons/md";
 import { getFromLocalStorage } from "../utils/getFromLocalStorage";
-
+import parse from 'html-react-parser'
 
 
 
@@ -30,6 +26,7 @@ export const BlogContent = () => {
   const [uploadFileToggle,setUploadFileToggle] = useState(false);
   const months = ["Jan", "Feb", "March", "April", "May","Jun", "Jul", "Aug","Sept","Oct","Nov","Dec"];
   let createdAt;
+
 
   useEffect(() => {
     async function getBlogContent() {
@@ -68,7 +65,7 @@ export const BlogContent = () => {
     try {
       const userObj = await axios.get('http://localhost:3000/user/getUser',{
         headers: {
-          "Authorization": "Bearer " + localStorage.getItem("token")
+          "Authorization": "Bearer " + getFromLocalStorage()
         }
       });
       if(blog.user_id === userObj.data._id) {
@@ -87,7 +84,6 @@ export const BlogContent = () => {
           "Authorization": "Bearer "+ getFromLocalStorage()
         }
       });
-      console.log(userObj);
       const getUser = userObj.data;
       if(getUser) {
         setUser(prev => ({name: getUser.updatedUsername,description: getUser.updatedDescription,email: prev.email}));
@@ -160,17 +156,17 @@ const fileUpload = async () => {
             <div className="w-10 h-[5px] bg-[#f16363]"></div>
             <p className="my-5">{blog.category}</p>
           </div>
-          <p>{blog?.content}</p>
+          <p className="border-none tiptap">{parse(blog?.content)}</p>
         </section>
-        <section className="lg:sticky lg:top-5 border-4 border-black rounded-[40px] min-w-[25vw] h-fit min-h-[70vh] flex flex-col items-center bg-white px-5 border-b-8">
+        <section className="lg:sticky lg:top-5 border-4 border-black rounded-[40px] min-w-[25vw] h-fit min-h-[60vh] flex flex-col items-center bg-white px-5 border-b-8">
           <div className="p-2 px-20 text-sm font-bold text-white bg-black rounded-b-3xl font-monsterrat">ABOUT ME</div>
           <div className={`relative flex flex-col items-center justify-center mt-5 border-4 border-black rounded-full h-52 w-52 ${currentUser && "hover:opacity-50"}`}>
             <img src = {user?.profilePicture || 'https://i0.wp.com/365webresources.com/wp-content/uploads/2016/09/FREE-PROFILE-AVATARS.png?resize=502%2C494&ssl=1'} alt = "Profile Picture" className="w-full h-full rounded-full"/>
             {currentUser && !uploadFileToggle && 
-              <>
-                 <SiGooglelens className="absolute text-3xl cursor-pointer"/>
-                  <input type="file" onChange={(e) => handleFileChange(e)} className="absolute file:cursor-pointer text-white text-[1px] file:text-[5px] file:p-3 ml-2 opacity-0 z-10"/>
-              </>
+              <div className="absolute text-3xl opacity-0 cursor-pointer hover:opacity-100">
+                  <SiGooglelens className="translate-x-5 translate-y-10"/>
+                  <input type="file" onChange={(e) => handleFileChange(e)} className="file:cursor-pointer text-white text-[1px] file:text-[5px] file:p-3 ml-2 opacity-0"/>
+              </div>
             }
             {uploadFileToggle && <MdCloudUpload onClick={fileUpload} className="absolute text-3xl cursor-pointer"/>}
           </div>
@@ -196,13 +192,6 @@ const fileUpload = async () => {
                 updateCredentials();
                 }}><BsFillHandThumbsUpFill /></button>}
             </div>
-            
-          </div>
-          <div className="flex gap-2 mt-auto mb-5 text-2xl">
-            <BiLogoFacebook className="cursor-pointer"/>
-            <BsTwitter className="cursor-pointer"/>
-            <AiFillInstagram className="cursor-pointer"/>
-            <AiFillLinkedin className="cursor-pointer"/>
           </div>
         </section>       
     </div>
