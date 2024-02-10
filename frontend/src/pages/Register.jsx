@@ -19,7 +19,7 @@ export const Register = () => {
         e.preventDefault();
         const user = {email,password};
         try {
-            const registered = await axios.post("http://localhost:3000/user/register",user);
+            const registered = await axios.post("https://blog-website-production-6642.up.railway.app/user/register",user);
             const registeredUser = registered.data;
             setLocalStorageValue("token", registeredUser.token);
             setUser(registeredUser.user);

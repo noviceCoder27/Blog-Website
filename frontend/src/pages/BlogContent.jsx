@@ -31,7 +31,7 @@ export const BlogContent = () => {
   useEffect(() => {
     async function getBlogContent() {
       try {
-        const content = await axios.get(`http://localhost:3000/blogs/${id}`);
+        const content = await axios.get(`https://blog-website-production-6642.up.railway.app/blogs/${id}`);
         setBlog(content.data);
       } catch(err) {
         console.log(err);
@@ -53,7 +53,7 @@ export const BlogContent = () => {
   
   async function getUserDetails() {
     try {
-      const userObj = await axios.post('http://localhost:3000/user/userdetails',{blog_id: String(blog._id)});
+      const userObj = await axios.post('https://blog-website-production-6642.up.railway.app/user/userdetails',{blog_id: String(blog._id)});
       setUser(userObj.data);
       setUserDetails({userName: user?.name, userDescription: user?.description})
     } catch(err) {
@@ -63,7 +63,7 @@ export const BlogContent = () => {
 
   const getCurrentUser = async() => {
     try {
-      const userObj = await axios.get('http://localhost:3000/user/getUser',{
+      const userObj = await axios.get('https://blog-website-production-6642.up.railway.app/user/getUser',{
         headers: {
           "Authorization": "Bearer " + getFromLocalStorage()
         }
@@ -79,7 +79,7 @@ export const BlogContent = () => {
   async function updateCredentials() {
    
     try {
-      const userObj = await axios.put("http://localhost:3000/user/updateCredentials",userDetials, {
+      const userObj = await axios.put("https://blog-website-production-6642.up.railway.app/user/updateCredentials",userDetials, {
         headers: {
           "Authorization": "Bearer "+ getFromLocalStorage()
         }
@@ -111,7 +111,7 @@ const fileUpload = async () => {
 
     // Send PUT request to server with form data
     try {
-      await axios.put(`http://localhost:3000/user/profilePic`, formData, {
+      await axios.put(`https://blog-website-production-6642.up.railway.app/user/profilePic`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           "Authorization": "Bearer " + getFromLocalStorage() 

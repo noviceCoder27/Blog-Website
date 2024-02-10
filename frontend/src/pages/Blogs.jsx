@@ -16,7 +16,7 @@ export const Blogs = () => {
     useEffect(() => {
         async function getBlogs() {
             try {
-                const blogsObj = await axios.get("http://localhost:3000/blogs");
+                const blogsObj = await axios.get("https://blog-website-production-6642.up.railway.app/blogs");
                 const getBlogs = blogsObj?.data;
                 setBlogs(getBlogs);
             } catch(err) {

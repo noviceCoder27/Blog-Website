@@ -32,7 +32,7 @@ export const Blog = ({index,blog,id,url}) => {
     useEffect(() => {
        async function getUser() {
         try {
-            const userObj = await axios.post("http://localhost:3000/user/userdetails", {blog_id: String(id)});
+            const userObj = await axios.post("https://blog-website-production-6642.up.railway.app/user/userdetails", {blog_id: String(id)});
             const getUser = userObj.data;
             setUser(getUser);
         } catch(err) {

@@ -27,7 +27,7 @@ export const Navbar = () => {
 
     async function getAllBlogs() {
         try {
-            const blogsObj = await axios.get("http://localhost:3000/blogs");
+            const blogsObj = await axios.get("https://blog-website-production-6642.up.railway.app/blogs");
             const getBlogs = blogsObj?.data;
             setBlogs(getBlogs);
             navigate("/");
@@ -39,7 +39,7 @@ export const Navbar = () => {
 
     async function myBlogs() {
         try {
-            const getBlogsObj = await axios.get(`http://localhost:3000/blogs/getBlogs/me`,{
+            const getBlogsObj = await axios.get(`https://blog-website-production-6642.up.railway.app/blogs/getBlogs/me`,{
                 headers: {
                     "Authorization": "Bearer " + getFromLocalStorage() 
                 }
@@ -54,7 +54,7 @@ export const Navbar = () => {
     
     async function searchByCategory(category) {
         try {
-            const getBlogsObj = await axios.get(`http://localhost:3000/blogs/showAll/${category}`);
+            const getBlogsObj = await axios.get(`https://blog-website-production-6642.up.railway.app/blogs/showAll/${category}`);
             const getBlogs = getBlogsObj.data;
             setBlogs(getBlogs);
             navigate("/");
