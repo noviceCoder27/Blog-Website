@@ -92,8 +92,8 @@ export const Navbar = () => {
 
     return (
         <header className="h-[20%] flex flex-col lg:flex-col lg:items-center lg:justify-center p-3 bg-[#fff] lg:bg-[#fff5cf] w-full border-b-4 border-black lg:border-b-0">
-            <div className="flex justify-between w-full lg:justify-center lg:mt-10">
-                <img src = {Logo} className= {`w-[15vw] max-w-[200px] min-w-[100px] lg:ml-40 lg:${pathname === '/' ? '': 'mr-[10rem]'}`}/>
+            <div className= {`flex justify-between w-full ml-auto mr-auto lg:w-fit lg:justify-center lg:mt-10 ${pathname === "/" ? "lg:translate-x-[80px]":""}`}>
+                <img src = {Logo} className= "w-[15vw] max-w-[200px] min-w-[100px]" />
                 {pathname === "/" && <div className="flex items-center gap-5">
                    <button className="flex items-center gap-2 ml-20 font-extrabold font-monsterrat">
                         <span className="max-lg:hidden">SEARCH</span>
