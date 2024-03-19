@@ -17,7 +17,7 @@ export const CreateBlog = () => {
         const formData = new FormData();
         formData.append("blogImage",selectedImage);
         formData.append("blog",JSON.stringify(blog));
-        const postBlog = await axios.post("https://blog-website-production-6642.up.railway.app/blogs",formData, {
+        const postBlog = await axios.post("https://blog-website-f31m.onrender.com/blogs",formData, {
             headers: {
                 "Authorization": "Bearer " + getFromLocalStorage(),
                 "Content-Type": "multipart/form-data"

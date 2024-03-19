@@ -16,7 +16,7 @@ export const Blogs = () => {
     useEffect(() => {
         async function getBlogs() {
             try {
-                const blogsObj = await axios.get("https://blog-website-production-6642.up.railway.app/blogs");
+                const blogsObj = await axios.get("https://blog-website-f31m.onrender.com/blogs");
                 const getBlogs = blogsObj?.data;
                 setBlogs(getBlogs);
             } catch(err) {

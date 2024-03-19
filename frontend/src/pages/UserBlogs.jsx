@@ -6,7 +6,7 @@ export const UserBlogs = () => {
   useEffect(() => {
     async function getUserBlogs() {
       try {
-        const userBlogsObj = await axios.get("https://blog-website-production-6642.up.railway.app/blogs/getBlogs/me", {
+        const userBlogsObj = await axios.get("https://blog-website-f31m.onrender.com/blogs/getBlogs/me", {
           headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
           }
