@@ -6,7 +6,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
+const backend_url = import.meta.env.VITE_BACKEND_URL
 
 
 export const Blog = ({index,blog,id,url}) => {
@@ -32,7 +32,7 @@ export const Blog = ({index,blog,id,url}) => {
     useEffect(() => {
        async function getUser() {
         try {
-            const userObj = await axios.post("https://blog-website-f31m.onrender.com/user/userdetails", {blog_id: String(id)});
+            const userObj = await axios.post(`${backend_url}/user/userdetails`, {blog_id: String(id)});
             const getUser = userObj.data;
             setUser(getUser);
         } catch(err) {

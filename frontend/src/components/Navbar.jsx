@@ -13,6 +13,8 @@ import { searchState } from './../store/atoms/searchAtom';
 import axios from "axios";
 import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 
+const backend_url = import.meta.env.VITE_BACKEND_URL
+
 
 export const Navbar = () => {
     const navigate = useNavigate();
@@ -27,7 +29,7 @@ export const Navbar = () => {
 
     async function getAllBlogs() {
         try {
-            const blogsObj = await axios.get("https://blog-website-f31m.onrender.com/blogs");
+            const blogsObj = await axios.get(`${backend_url}/blogs`);
             const getBlogs = blogsObj?.data;
             setBlogs(getBlogs);
             navigate("/");
@@ -39,7 +41,7 @@ export const Navbar = () => {
 
     async function myBlogs() {
         try {
-            const getBlogsObj = await axios.get(`https://blog-website-f31m.onrender.com/blogs/getBlogs/me`,{
+            const getBlogsObj = await axios.get(`${backend_url}/blogs/getBlogs/me`,{
                 headers: {
                     "Authorization": "Bearer " + getFromLocalStorage() 
                 }
@@ -54,7 +56,7 @@ export const Navbar = () => {
     
     async function searchByCategory(category) {
         try {
-            const getBlogsObj = await axios.get(`https://blog-website-f31m.onrender.com/blogs/showAll/${category}`);
+            const getBlogsObj = await axios.get(`${backend_url}/blogs/showAll/${category}`);
             const getBlogs = getBlogsObj.data;
             setBlogs(getBlogs);
             navigate("/");

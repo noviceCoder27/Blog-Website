@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 import ContentEditor from "../components/ContentEditor";
-
+const backend_url = import.meta.env.VITE_BACKEND_URL
 
 export const CreateBlog = () => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const CreateBlog = () => {
         const formData = new FormData();
         formData.append("blogImage",selectedImage);
         formData.append("blog",JSON.stringify(blog));
-        const postBlog = await axios.post("https://blog-website-f31m.onrender.com/blogs",formData, {
+        const postBlog = await axios.post(`${backend_url}/blogs`,formData, {
             headers: {
                 "Authorization": "Bearer " + getFromLocalStorage(),
                 "Content-Type": "multipart/form-data"

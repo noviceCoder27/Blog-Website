@@ -10,7 +10,9 @@ const cors = require("cors");
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors({
-    origin: "https://blogger27.netlify.app"
+    origin: "https://blogger27.netlify.app",
+    methods: ["GET","PUT","PATCH","POST","DELETE"],
+    credentials: true
 }));
 app.use('/user',userRoutes);
 app.use('/blogs',blogRoutes);

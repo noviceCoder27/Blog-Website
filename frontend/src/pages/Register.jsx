@@ -5,7 +5,7 @@ import { Form } from "../components/Form";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../store/atoms/userAtom";
 import { setLocalStorageValue } from "../utils/setLocalStorageValue";
-
+const backend_url = import.meta.env.VITE_BACKEND_URL
 
 
 export const Register = () => {
@@ -19,7 +19,7 @@ export const Register = () => {
         e.preventDefault();
         const user = {email,password};
         try {
-            const registered = await axios.post("https://blog-website-f31m.onrender.com/user/register",user);
+            const registered = await axios.post(`${backend_url}/user/register`,user);
             const registeredUser = registered.data;
             setLocalStorageValue("token", registeredUser.token);
             setUser(registeredUser.user);

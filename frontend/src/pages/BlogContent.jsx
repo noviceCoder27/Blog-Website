@@ -10,7 +10,7 @@ import { MdCloudUpload } from "react-icons/md";
 import { getFromLocalStorage } from "../utils/getFromLocalStorage";
 import parse from 'html-react-parser'
 
-
+const backend_url = import.meta.env.VITE_BACKEND_URL
 
 
 
@@ -31,7 +31,7 @@ export const BlogContent = () => {
   useEffect(() => {
     async function getBlogContent() {
       try {
-        const content = await axios.get(`https://blog-website-f31m.onrender.com/blogs/${id}`);
+        const content = await axios.get(`${backend_url}/blogs/${id}`);
         setBlog(content.data);
       } catch(err) {
         console.log(err);
@@ -53,7 +53,7 @@ export const BlogContent = () => {
   
   async function getUserDetails() {
     try {
-      const userObj = await axios.post('https://blog-website-f31m.onrender.com/user/userdetails',{blog_id: String(blog._id)});
+      const userObj = await axios.post(`${backend_url}/user/userdetails`,{blog_id: String(blog._id)});
       setUser(userObj.data);
       setUserDetails({userName: user?.name, userDescription: user?.description})
     } catch(err) {
@@ -63,7 +63,7 @@ export const BlogContent = () => {
 
   const getCurrentUser = async() => {
     try {
-      const userObj = await axios.get('https://blog-website-f31m.onrender.com/user/getUser',{
+      const userObj = await axios.get(`${backend_url}/user/getUser`,{
         headers: {
           "Authorization": "Bearer " + getFromLocalStorage()
         }
@@ -79,7 +79,7 @@ export const BlogContent = () => {
   async function updateCredentials() {
    
     try {
-      const userObj = await axios.put("https://blog-website-f31m.onrender.com/user/updateCredentials",userDetials, {
+      const userObj = await axios.put(`${backend_url}/user/updateCredentials`,userDetials, {
         headers: {
           "Authorization": "Bearer "+ getFromLocalStorage()
         }
@@ -111,7 +111,7 @@ const fileUpload = async () => {
 
     // Send PUT request to server with form data
     try {
-      await axios.put(`https://blog-website-f31m.onrender.com/user/profilePic`, formData, {
+      await axios.put(`${backend_url}/user/profilePic`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           "Authorization": "Bearer " + getFromLocalStorage() 

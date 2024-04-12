@@ -7,7 +7,7 @@ import { SearchBar } from './../components/SearchBar';
 import { searchState } from './../store/atoms/searchAtom';
 import { Loader } from "../components/Loader";
 
-
+const backend_url = import.meta.env.VITE_BACKEND_URL
 
 export const Blogs = () => {
     const search = useRecoilValue(searchState);
@@ -16,7 +16,7 @@ export const Blogs = () => {
     useEffect(() => {
         async function getBlogs() {
             try {
-                const blogsObj = await axios.get("https://blog-website-f31m.onrender.com/blogs");
+                const blogsObj = await axios.get(`${backend_url}/blogs`);
                 const getBlogs = blogsObj?.data;
                 setBlogs(getBlogs);
             } catch(err) {
